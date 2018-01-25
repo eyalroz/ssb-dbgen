@@ -25,6 +25,8 @@ void
 dss_random(long *tgt, long lower, long upper, long stream)
 {
 	*tgt = UnifInt((long)lower, (long)upper, (long)stream);
+	if (stream < 0 || stream > MAX_STREAM)
+		stream = 0;
 	Seed[stream].usage += 1;
 
 	return;
