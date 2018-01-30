@@ -9,10 +9,20 @@ set_property(CACHE DATABASE PROPERTY STRINGS INFORMIX DB2 TDAT SQLSERVER SYBASE)
 set(MACHINE LINUX CACHE STRING "Platform to target (\"MACHINE\")")
 set_property(CACHE MACHINE PROPERTY STRINGS ATT HP IBM ICL MVS SGI SUN U2200 VMS LINUX WIN32 MAC)
 
+if (WIN32)
+	set(MACHINE "WIN32")
+endif()
+if (UNIX AND NOT APPLE)
+	set(MACHINE "LINUX")
+endif()
+if (APPLE)
+	set(MACHINE "MAC")
+endif()
+
 set(WORKLOAD SSB CACHE STRING "Choice of benchmark / query workload (\"WORKLOAD\")")
 set_property(CACHE WORKLOAD PROPERTY STRINGS TPCH SSB)
 
-set(EOL_HANDLING OFF CACHE BOOL "Skip separator after the last field in generated lines?")
+set(EOL_HANDLING ON CACHE BOOL "Skip separator after the last field in generated lines?")
 
 add_executable(dbgen
 	src/bcd2.c
