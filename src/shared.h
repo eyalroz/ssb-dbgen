@@ -18,7 +18,22 @@
 #define  P_CAT_LEN     7
 #define  P_CAT_MIN     1
 #define  P_CAT_MAX     5
-#define  P_CAT_SD      97
+/*
+ *
+ * In the originally-published version of this file,
+ * the following definition was included:
+ *
+ *   #define  P_CAT_SD      97
+ *
+ * but that's inappropriate, both since seeds are defined in dss.h,
+ * and because it exceeds MAX_STREAM, so it's not covered by the Seed
+ * array (see rnd.h). Now, magically, this often didn't trigger
+ * a segmentation fault, despite out-of-bounds access to Seed[P_CAT_SD];
+ * but the value was junk; or maybe it was 0, due to some fortunate
+ * coincidence.
+ *
+ * At any rate, this was moved and changed.
+ */
 #define  S_NATION_NAME_LEN 15
 #define  S_REGION_NAME_LEN 12
 #define  C_NATION_NAME_LEN 15

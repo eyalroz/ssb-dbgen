@@ -597,7 +597,7 @@ mk_time(long index, dss_time_t *t)
 
 
 #ifdef SSB
-		/*bug!*/
+	/*bug! <- maybe this was fixed by using a valid seed?*/
 int gen_city(char *cityName, char *nationName){
     int i=0;
     long randomPick;
@@ -610,7 +610,7 @@ int gen_city(char *cityName, char *nationName){
       for(i = nlen ; i< CITY_FIX-1;i++)
         cityName[i] = ' ';
     }
-    RANDOM(randomPick, 0, 9, 98);
+    RANDOM(randomPick, 0, 9, P_CITY_SD);
     
     sprintf(cityName+CITY_FIX-1,"%ld",randomPick);
     cityName[CITY_FIX] = '\0';
@@ -619,8 +619,8 @@ int gen_city(char *cityName, char *nationName){
 
 
 /*
-P_NAME is as long as 55 bytes in TPC-H, which is un¬reasonably large. 
-We reduce it to 22 by limiting to a concatena¬tion of two colors (see [TPC-H], pg 94). 
+P_NAME is as long as 55 bytes in TPC-H, which is unreasonably large.
+We reduce it to 22 by limiting to a concatenation of two colors (see [TPC-H], pg 94).
 We also add a new column named P_COLOR that could be used in queries where currently a 
 color must be chosen by substring from P_NAME.
 */

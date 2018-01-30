@@ -17,6 +17,7 @@
 #include <math.h>
 #include "dss.h"
 #include "rnd.h" 
+#include <assert.h>
 
 char *env_config PROTO((char *tag, char *dflt));
 void NthElement(long, long *);
@@ -24,6 +25,7 @@ void NthElement(long, long *);
 void
 dss_random(long *tgt, long lower, long upper, long stream)
 {
+	assert(stream >= 0 && stream <= MAX_STREAM);
 	*tgt = UnifInt((long)lower, (long)upper, (long)stream);
 	if (stream < 0 || stream > MAX_STREAM)
 		stream = 0;

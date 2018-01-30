@@ -423,7 +423,12 @@ extern tdef tdefs[];
 #define  ENDDATE      98365
 #define  TOTDATE      2557
 #define  UPD_PCT      10
+#ifdef SSB
+#define  MAX_STREAM   49
+#else
 #define  MAX_STREAM   47
+#endif
+
 #define  V_STR_LOW    0.4
 #define  PENNIES    100 /* for scaled int money arithmetic */
 #define  Q11_FRACTION (double)0.0001
@@ -585,6 +590,10 @@ sprintf(tgt, "19%02ld-%02ld-%02ld", yr, mn, dy)
 #define  BBB_TYPE_SD   45         
 #define  BBB_CMNT_SD   46         
 #define  BBB_OFFSET_SD 47         
+#ifdef SSB
+#define  P_CAT_SD  48
+#define  P_CITY_SD 49
+#endif
 
 #endif            /* DSS_H */
 

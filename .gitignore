@@ -1,3 +1,6 @@
+cmake_install.cmake
+CMakeFiles/
+CMakeCache.txt
 *.o
 *.tbl
 *.bkp
@@ -9,3 +12,7 @@ makefile
 *~
 \#\#*
 gmon.out
+.cproject
+.project
+.idea/
+

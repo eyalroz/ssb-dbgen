@@ -77,4 +77,9 @@ seed_t     Seed[MAX_STREAM + 1] =
     {SUPP,   753643799,  0, 1},      /* BBB type     45 */
     {SUPP,   202794285,  0, 1},      /* BBB comment  46 */
     {SUPP,   715851524,  0, 1}       /* BBB junk     47 */
+#ifdef SSB
+    ,
+    {PART,   637858759,  0, 1},					/* P_CAT_SD     48 */
+    {SUPP,   1495190827, 0, 1}					/* P_CITY_SD     49 */
+#endif
 };
