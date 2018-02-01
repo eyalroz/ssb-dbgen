@@ -3,21 +3,21 @@ cmake_minimum_required(VERSION 3.0)
 project(ssb-dbgen # SSB benchmark data (and query) generator utilities
 	LANGUAGES C)
 
+set(CMAKE_C_FLAGS_DEBUG "-g")
+set(CMAKE_C_FLAGS_RELEASE "-O3")
+
 set(DATABASE "DB2" CACHE STRING "Command language dialect to target with the qgen query generator (\"DATABASE\"")
 set_property(CACHE DATABASE PROPERTY STRINGS INFORMIX DB2 TDAT SQLSERVER SYBASE)
 
-set(MACHINE LINUX CACHE STRING "Platform to target (\"MACHINE\")")
-set_property(CACHE MACHINE PROPERTY STRINGS ATT HP IBM ICL MVS SGI SUN U2200 VMS LINUX WIN32 MAC)
-
+set(MACHINE_DOCSTRING "Platform to target (\"MACHINE\")")
 if (WIN32)
-	set(MACHINE "WIN32")
+	set(MACHINE WIN32 CACHE STRING ${MACHINE_DOCSTRING})
+elseif (UNIX AND NOT APPLE)
+	set(MACHINE LINUX CACHE STRING ${MACHINE_DOCSTRING})
+elseif (APPLE)
+	set(MACHINE MAC CACHE STRING ${MACHINE_DOCSTRING})
 endif()
-if (UNIX AND NOT APPLE)
-	set(MACHINE "LINUX")
-endif()
-if (APPLE)
-	set(MACHINE "MAC")
-endif()
+set_property(CACHE MACHINE PROPERTY STRINGS ATT HP IBM ICL MVS SGI SUN U2200 VMS LINUX WIN32 MAC)
 
 set(WORKLOAD SSB CACHE STRING "Choice of benchmark / query workload (\"WORKLOAD\")")
 set_property(CACHE WORKLOAD PROPERTY STRINGS TPCH SSB)
