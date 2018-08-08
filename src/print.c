@@ -169,7 +169,7 @@ static FILE *fp = NULL;
    PR_STR(fp, c->nation_name, C_NATION_NAME_LEN);
    PR_STR(fp, c->region_name, C_REGION_NAME_LEN);
    PR_STR(fp, c->phone, PHONE_LEN);
-   PR_STR(fp, c->mktsegment,MAXAGG_LEN);
+   PR_VSTR_LAST(fp, c->mktsegment,MAXAGG_LEN);
    PR_END(fp);
 
    return(0);
@@ -278,7 +278,7 @@ pr_line(order_t *o, int mode)
 	PR_INT(fp_l, o->lineorders[i].supp_cost);
 	PR_INT(fp_l, o->lineorders[i].tax);
 	PR_STR(fp_l, o->lineorders[i].commit_date, DATE_LEN);
-	PR_STR(fp_l, o->lineorders[i].shipmode, O_SHIP_MODE_LEN);
+	PR_VSTR_LAST(fp_l, o->lineorders[i].shipmode, O_SHIP_MODE_LEN);
         PR_END(fp_l);
         }
 
@@ -371,7 +371,7 @@ pr_part(part_t *part, int mode)
     PR_VSTR(p_fp, part->type,
 	    (columnar)?(long)P_TYPE_LEN:part->tlen);
     PR_INT(p_fp, part->size);
-    PR_STR(p_fp, part->container, P_CNTR_LEN);
+    PR_VSTR_LAST(p_fp, part->container, P_CNTR_LEN);
     PR_END(p_fp);
     return(0);
 }
@@ -471,7 +471,7 @@ pr_supp(supplier_t *supp, int mode)
     PR_STR(fp, supp->city, CITY_FIX);
     PR_STR(fp, supp->nation_name, C_NATION_NAME_LEN);
     PR_STR(fp, supp->region_name, C_REGION_NAME_LEN);
-    PR_STR(fp, supp->phone, PHONE_LEN);
+    PR_VSTR_LAST(fp, supp->phone, PHONE_LEN);
     PR_END(fp);
 
     return(0);
@@ -674,7 +674,7 @@ int pr_date(date_t *d, int mode){
     PR_STR(d_fp,d->lastdayinweekfl,2);
     PR_STR(d_fp,d->lastdayinmonthfl,2);
     PR_STR(d_fp,d->holidayfl,2);
-    PR_STR(d_fp,d->weekdayfl,2);
+    PR_VSTR_LAST(d_fp,d->weekdayfl,2);
 
     PR_END(d_fp);
     return(0);
