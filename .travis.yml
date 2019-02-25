@@ -105,5 +105,12 @@ matrix:
                 visualstudio2017buildtools
       script: cmake -G "Visual Studio 15 2017" . && cmake --build .
 
+    - os: windows
+      addons:
+        chocolatey:
+            packages:
+                mingw
+      script: cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" . && cmake --build .
+
 before_install:
 - eval "${MATRIX_EVAL}"
