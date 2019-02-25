@@ -69,8 +69,11 @@ add_executable(qgen
 )
 
 # Link against the C math library (libm)
-target_link_libraries(dbgen m)
-target_link_libraries(qgen m)
+find_library(HAVE_LIBM m)
+if (HAVE_LIBM)
+	target_link_libraries(dbgen m)
+	target_link_libraries(qgen m)
+endif()
 
 set_property(
 	TARGET dbgen qgen
@@ -99,5 +102,5 @@ elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
 elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC")
     set_property(TARGET dbgen qgen APPEND PROPERTY COMPILE_OPTIONS "/W3")
     set_property(TARGET dbgen qgen APPEND PROPERTY COMPILE_DEFINITIONS _CRT_NONSTDC_NO_DEPRECATE _CRT_SECURE_NO_WARNINGS)
-endif ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
+endif()
 
