@@ -56,10 +56,10 @@
 #elif (@SIZEOF_LONG_LONG@ == 8)
 	#define SIGNED_64_BIT_C_TYPE long long
 	#define SIGNED_64_BIT_PRINTF_MODIFIER "ll"
-#elif (@SIZEOF_SHORT@ == "8")
+#elif (@SIZEOF_SHORT@ == 8)
 	#define SIGNED_64_BIT_C_TYPE short
 	#define SIGNED_64_BIT_PRINTF_MODIFIER "s"
-#elif (@SIZEOF_INT@ == "8")
+#elif (@SIZEOF_INT@ == 8)
 	#define SIGNED_64_BIT_C_TYPE int
 	#define SIGNED_64_BIT_PRINTF_MODIFIER
 #else
