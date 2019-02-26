@@ -55,6 +55,10 @@ if (NOT HAVE_MALLOC_IN_STDLIB)
 	endif()
 endif()
 
+if (NOT HAVE_UNISTD_H AND HAVE_SYS_TYPES_H)
+	check_symbol_exists(pid_t sys/types.h HAVE_PID_T_IN_SYS_TYPES_H)
+endif()
+
 check_function_exists(getopt		HAVE_GETOPT)
 #check_function_exists(getpid		HAVE_GETPID)
 #if (NOT HAVE_GETPID)
