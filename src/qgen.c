@@ -7,13 +7,15 @@
 
 #include <stdio.h>
 #include <string.h>
-#if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )
-#include <unistd.h>
-#else
-#include "process.h"
-#endif /* WIN32 */
 #include <ctype.h>
 #include <time.h>
+
+#if defined(HAVE_UNISTD_H)
+	#include <unistd.h>
+#elif defined(HAVE_PROCESS_H)
+	#include <process.h>
+#endif
+
 #include "config.h"
 #include "dss.h"
 #include "tpcd.h"

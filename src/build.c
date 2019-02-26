@@ -3,28 +3,27 @@
 /* stuff related to the customer table */
 #include <stdio.h>
 #include <string.h>
-#ifdef SSB
-#include <time.h>
-#endif
-#ifndef VMS
-#include <sys/types.h>
-#endif
-#if defined(SUN)
-#include <unistd.h>
-#endif
-
-#if defined(LINUX)
-#include <unistd.h>
-#endif
-
 #include <math.h>
+
+#ifdef SSB
+	#include <time.h>
+#endif
+
+#ifdef HAVE_SYS_TYPES_H // #ifndef VMS originally
+	#include <sys/types.h>
+#endif
+
+#ifdef HAVE_UNISTD_H
+	#include <unistd.h>
+#endif 
 
 #include "dss.h"
 #include "dsstypes.h"
 #include "bcd2.h"
+
 #ifdef ADHOC
-#include "adhoc.h"
-extern adhoc_t adhocs[];
+	#include "adhoc.h"
+	extern adhoc_t adhocs[];
 #endif /* ADHOC */
 
 #define LEAP_ADJ(yr, mnth)      \

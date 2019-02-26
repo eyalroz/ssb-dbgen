@@ -22,8 +22,8 @@
 /*this has to be put on top...*/
 #ifdef LINUX
 /* turn on GNU extensions, incl O_DIRECT */
-/* O_LARGEFILE is defined in fcntl.h*/
-#define _GNU_SOURCE
+/* O_LARGEFILE is defined in fcntl.h	 */
+	#define _GNU_SOURCE
 #endif
 
 #include "dss.h"
@@ -31,60 +31,71 @@
 #include <time.h>
 #include <errno.h>
 #include <string.h>
-
-#ifdef HAVE_STRINGS_H
-#include <strings.h>
-#endif 
 #include <ctype.h>
 #include <math.h>
-#ifdef _POSIX_C_SOURCE
-#include <stdlib.h>
-#else
-#ifdef HAVE_MALLOC_H
-#include <malloc.h>
-#else
-#error "No place to get the malloc() definition from."
-#endif /* HAVE_MALLOC_H */
-#endif /* _POSIX_C_SOURCE */
 
-#include <fcntl.h>
-
-#ifdef IBM
-#include <sys/mode.h>
-#endif /* IBM */
-#include <sys/types.h>
-#include <sys/stat.h>
-/* Lines added by Chuck McDevitt for WIN32 support */
-#if	(defined(WIN32)||defined(DOS))
-#ifndef _POSIX_C_SOURCE
-#include <io.h>
-#ifndef S_ISREG
-
-#define S_ISREG(m) ( ((m) & _S_IFMT) == _S_IFREG )
-#define S_ISFIFO(m) ( ((m) & _S_IFMT) == _S_IFIFO )
-
+#ifdef HAVE_STRINGS_H
+	#include <strings.h>
 #endif 
+
+#ifdef HAVE_MALLOC_IN_STDLIB
+	#include <stdlib.h>
+#elif defined(HAVE_MALLOC_H)
+	#include <malloc.h>
+#else
+	#error "No place to get the malloc() definition from."
+#endif 
+
+#ifdef HAVE_FCNTL_H
+	#include <fcntl.h>
 #endif
-#ifndef stat
-#define stat _stat
+
+#ifdef HAVE_SYS_TYPES_H
+	#include <sys/types.h>
 #endif
-#ifndef fdopen
-#define fdopen _fdopen
+
+#ifdef HAVE_SYS_STAT_H
+	#include <sys/stat.h>
 #endif
-#ifndef open
-#define open _open
-#endif
-#ifndef O_RDONLY
-#define O_RDONLY _O_RDONLY
-#endif
-#ifndef O_WRONLY
-#define O_WRONLY _O_WRONLY
-#endif
-#ifndef O_CREAT
-#define O_CREAT _O_CREAT
-#endif
+
+
+// TODO: do something with it
+#ifdef IBM
+	#include <sys/mode.h>
+#endif 
+
+// TODO: and with it
+/* Lines added by Chuck McDevitt for WIN32 support */
+#if	(defined(WIN32) || defined(DOS))
+	#ifndef _POSIX_C_SOURCE 
+		#include <io.h>
+		#ifndef S_ISREG
+			#define S_ISREG(m) ( ((m) & _S_IFMT) == _S_IFREG )
+			#define S_ISFIFO(m) ( ((m) & _S_IFMT) == _S_IFIFO )
+		#endif 
+	#endif
+	#ifndef stat
+		#define stat _stat
+	#endif
+	#ifndef fdopen
+		#define fdopen _fdopen
+	#endif
+	#ifndef open
+		#define open _open
+	#endif
+	#ifndef O_RDONLY
+		#define O_RDONLY _O_RDONLY
+	#endif
+	#ifndef O_WRONLY
+		#define O_WRONLY _O_WRONLY
+	#endif
+	#ifndef O_CREAT
+		#define O_CREAT _O_CREAT
+	#endif
 #endif
 /* End of lines added by Chuck McDevitt for WIN32 support */
+
+
 #include "dsstypes.h"
 
 

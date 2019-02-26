@@ -6,51 +6,54 @@
 #define NO_LFUNC (long (*) ()) NULL		/* to clean up tdefs */
 
 #include "config.h"
-#include <stdlib.h>
-#if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )		/* Change for Windows NT */
-#ifndef DOS
-#include <unistd.h>
-#include <sys/wait.h>
-#endif
 
-#endif /* WIN32 */
-#include <stdio.h>				/* */
+#if (defined(HAVE_FORK) && defined(HAVE_WAIT) && defined(HAVE_KILL))
+	#define CAN_PLOAD
+#endif 
+
+#include <stdlib.h>
+#include <stdio.h>
 #include <limits.h>
 #include <math.h>
 #include <ctype.h>
 #include <signal.h>
 #include <string.h>
 #include <errno.h>
+
 #ifdef HAVE_STRINGS_H
-#include <strings.h>
+	#include <strings.h>
 #endif
-/* TODO: Do we really need al of these Windows-specifi definitions? */
-#if ( defined(WIN32) && !defined(_POSIX_C_SOURCE) )
-#include <process.h>
-#pragma warning(disable:4201)
-#pragma warning(disable:4214)
-#pragma warning(disable:4514)
-#define WIN32_LEAN_AND_MEAN
-#define NOATOM
-#define NOGDICAPMASKS
-#define NOMETAFILE
-#define NOMINMAX
-#define NOMSG
-#define NOOPENFILE
-#define NORASTEROPS
-#define NOSCROLL
-#define NOSOUND
-#define NOSYSMETRICS
-#define NOTEXTMETRIC
-#define NOWH
-#define NOCOMM
-#define NOKANJI
-#define NOMCX
 
-#include "windows.h"
+#if (defined(HAVE_UNISTD_H) && defined(HAVE_SYS_WAIT_H)) // POSIX-compatible system
+	#include <unistd.h>
+	#include <sys/wait.h>
+#elif (defined(HAVE_PROCESS_H) && defined(HAVE_WINDOWS_H)) // Windows system
+	/* TODO: Do we really need all of these Windows-specific definitions? */
+	#include <process.h>
+	#pragma warning(disable:4201)
+	#pragma warning(disable:4214)
+	#pragma warning(disable:4514)
+	#define WIN32_LEAN_AND_MEAN
+	#define NOATOM
+	#define NOGDICAPMASKS
+	#define NOMETAFILE
+	#define NOMINMAX
+	#define NOMSG
+	#define NOOPENFILE
+	#define NORASTEROPS
+	#define NOSCROLL
+	#define NOSOUND
+	#define NOSYSMETRICS
+	#define NOTEXTMETRIC
+	#define NOWH
+	#define NOCOMM
+	#define NOKANJI
+	#define NOMCX
 
-#pragma warning(default:4201)
-#pragma warning(default:4214)
+	#include "windows.h"
+
+	#pragma warning(default:4201)
+	#pragma warning(default:4214)
 #endif
 
 #include "dss.h"
@@ -76,9 +79,9 @@ extern int optind, opterr;
 extern char *optarg;
 long rowcnt = 0, minrow = 0, upd_num = 0;
 double flt_scale;
-#if ( defined(WIN32) && !defined(_POSIX_C_SOURCE) )
-char *spawn_args[25];
-#endif
+//#if ( defined(WIN32) && !defined(_POSIX_C_SOURCE) )
+//char *spawn_args[25];
+//#endif
 
 
 /*
@@ -287,7 +290,7 @@ stop_proc (int signum)
  * have been tested or even built on non-Linux platforms.
  */
 
-#if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )
+#ifdef HAVE_KILL
 
 void
 kill_load (void)
@@ -653,8 +656,7 @@ partial (int tbl, int s)
  * even built on non-Linux platforms.
  */
 
-#if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )
-
+#ifdef CAN_PLOAD
 int
 pload (int tbl)
 {
@@ -721,7 +723,7 @@ pload (int tbl)
 		fprintf (stderr, "done\n");
 	return (0);
 }
-#endif /* ( defined(_POSIX_C_SOURCE) || !defined(WIN32) ) */
+#endif /* CAN_PLOAD */
 
 
 void
@@ -817,8 +819,7 @@ process_options (int count, char **vector)
 			  break;			  
 #endif
 		  default:
-			  fprintf (stderr, "Unknown table name %s\n",
-				  optarg);
+			  fprintf (stderr, "Unknown table name %s\n", optarg);
 			  usage ();
 			  exit (1);
 		  }
@@ -996,7 +997,7 @@ main (int ac, char **av)
 	d_path = NULL;
 	
 	process_options (ac, av);
-#if ( defined(WIN32) && !defined(_POSIX_C_SOURCE) )
+/*#if ( defined(WIN32) && !defined(_POSIX_C_SOURCE) )
 	for (i = 0; i < ac; i++)
 	{
 		spawn_args[i] = malloc ((strlen (av[i]) + 1) * sizeof (char));
@@ -1004,7 +1005,7 @@ main (int ac, char **av)
 		strcpy (spawn_args[i], av[i]);
 	}
 	spawn_args[ac] = NULL;
-#endif
+#endif*/
 	
 	if (verbose >= 0)
 		{
@@ -1120,14 +1121,7 @@ main (int ac, char **av)
 					else
 						partial (i, step);
 				}
-#ifndef _POSIX_C_SOURCE
-				else
-				{
-					fprintf (stderr,
-						"Parallel load is not supported on your platform.\n");
-					exit (1);
-				}
-#else
+#ifdef CAN_PLOAD
 				else
 				{
 					if (validate)
@@ -1135,9 +1129,16 @@ main (int ac, char **av)
 						INTERNAL_ERROR("Cannot validate parallel data generation");
 					}
 					else
-						pload (i);
+						pload(i);
 				}
-#endif /* _POSIX_C_SOURCE */
+#else
+				else
+				{
+					fprintf(stderr,
+						"Parallel load is not supported on your platform currently.\n");
+					exit(1);
+				}
+#endif /* CAN_PLOAD */
 			}
 			else
 			{

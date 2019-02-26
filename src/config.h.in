@@ -27,34 +27,43 @@
  *   TPCH              -- make will create TPCH (set in makefile)
  */
 
+/*		POSIX headers related macros		*/
+#cmakedefine HAVE_UNISTD_H
+#cmakedefine HAVE_FCNTL_H
+#cmakedefine HAVE_SYS_WAIT_H
+#cmakedefine HAVE_SYS_TYPES_H
+#cmakedefine HAVE_SYS_STAT_H
+#cmakedefine HAVE_STRINGS_H
 #cmakedefine HAVE_INTTYPES_H
+
+/*		Windows headers related macros		*/
+#cmakedefine HAVE_PROCESS_H
+#cmakedefine HAVE_WINDOWS_H	
+
+/*		Another headers related macros		*/
 #cmakedefine HAVE_STDINT_H
 #cmakedefine HAVE_SYS_BITTYPES_H
+#cmakedefine HAVE_MALLOC_IN_STDLIB
 #cmakedefine HAVE_MALLOC_H
+
 
 #define RNG_TEST
 #define _FILE_OFFSET_BITS 64
 
 #if (@SIZEOF_LONG@ == 8)
-#define SIGNED_64_BIT_C_TYPE long
-#define SIGNED_64_BIT_PRINTF_MODIFIER "l"
+	#define SIGNED_64_BIT_C_TYPE long
+	#define SIGNED_64_BIT_PRINTF_MODIFIER "l"
+#elif (@SIZEOF_LONG_LONG@ == 8)
+	#define SIGNED_64_BIT_C_TYPE long long
+	#define SIGNED_64_BIT_PRINTF_MODIFIER "ll"
+#elif (@SIZEOF_SHORT@ == "8")
+	#define SIGNED_64_BIT_C_TYPE short
+	#define SIGNED_64_BIT_PRINTF_MODIFIER "s"
+#elif (@SIZEOF_INT@ == "8")
+	#define SIGNED_64_BIT_C_TYPE int
+	#define SIGNED_64_BIT_PRINTF_MODIFIER
 #else
-#if (@SIZEOF_LONG_LONG@ == 8)
-#define SIGNED_64_BIT_C_TYPE long long
-#define SIGNED_64_BIT_PRINTF_MODIFIER "ll"
-#else
-#if (@SIZEOF_SHORT@ == "8")
-#define SIGNED_64_BIT_C_TYPE short
-#define SIGNED_64_BIT_PRINTF_MODIFIER "s"
-#else
-#if (@SIZEOF_INT@ == "8")
-#define SIGNED_64_BIT_C_TYPE int
-#define SIGNED_64_BIT_PRINTF_MODIFIER
-#else
-#error "No standard C integer type has size 8"
-#endif
-#endif
-#endif
+	#error "No standard C integer type has size 8"
 #endif
 
 #define DSS_HUGE          SIGNED_64_BIT_C_TYPE
@@ -64,22 +73,26 @@
 
 #cmakedefine01 HAVE_GETOPT
 #if (HAVE_GETOPT == 1)
-#define STDLIB_HAS_GETOPT 1
+	#define STDLIB_HAS_GETOPT 1
 #endif
 
 #cmakedefine01 HAVE_GETPID
 #if (HAVE_GETPID == 1)
-#define DSS_PROC getpid()
+	#define DSS_PROC getpid()
 #else
-#define DSS_PROC 1
+	#define DSS_PROC 1
 #endif
+
+#cmakedefine HAVE_KILL
+#cmakedefine HAVE_FORK
+#cmakedefine HAVE_WAIT
 
 #define RNG_A	6364136223846793005ull
 #define RNG_C	1ull
 
-#ifdef __APPLE__ 
-#define _POSIX_C_SOURCE 200112L
-#endif 
+//#ifdef __APPLE__ 
+//	#define _POSIX_C_SOURCE 200112L
+//#endif 
 
 #if (defined(_WIN32) && !defined(_POSIX)) || defined(__CYGWIN__)
 #define PATH_SEP '\\'
@@ -87,35 +100,36 @@
 #define PATH_SEP '/'
 #endif
 
-#if (defined(_WIN32) && !defined(_POSIX)) || defined(__CYGWIN__)
-#define pid_t int
-#define SET_HANDLER(proc) signal(SIGINT, proc)
-#define KILL(pid) TerminateProcess(OpenProcess(PROCESS_TERMINATE,FALSE,pid),3)
-#if (defined (__WATCOMC__))
-#define SPAWN()   spawnv(P_NOWAIT, spawn_args[0], spawn_args)
-#define WAIT(res, pid) cwait(res, pid, WAIT_CHILD)
-#else /* MSVC (?) */
-#define SPAWN()   _spawnv(_P_NOWAIT, spawn_args[0], spawn_args)
-#define WAIT(res, pid) _cwait(res, pid, _WAIT_CHILD)
-#define getpid          _getpid
-#endif /* WATCOMC */
+// These macros aren't being used in code currently and parallel load is allowed 
+// only for POSIX-compatible systems (with fork, kill and wait).
+#if (defined(HAVE_UNISTD_H) && defined(HAVE_SYS_WAIT_H))
+//	#define KILL(pid) kill(SIGUSR1, pid)
+//	#define SET_HANDLER(proc) signal(SIGUSR1, proc)
+//	#define SPAWN   fork
+//	#define WAIT(res, pid) wait(res)
 #else
-#define KILL(pid) kill(SIGUSR1, pid)
-#define SET_HANDLER(proc) signal(SIGUSR1, proc)
-#define SPAWN   fork
-#define WAIT(res, pid) wait(res)
+	typedef int pid_t;
+//	#define SET_HANDLER(proc) signal(SIGINT, proc)
+//	#define KILL(pid) TerminateProcess(OpenProcess(PROCESS_TERMINATE,FALSE,pid),3)
+//	
+//	#if (defined (__WATCOMC__))
+//		#define SPAWN()   spawnv(P_NOWAIT, spawn_args[0], spawn_args)
+//		#define WAIT(res, pid) cwait(res, pid, WAIT_CHILD)
+//	#else /* MSVC (?) */
+//		#define SPAWN()   _spawnv(_P_NOWAIT, spawn_args[0], spawn_args)
+//		#define WAIT(res, pid) _cwait(res, pid, _WAIT_CHILD)
+//		#define getpid          _getpid
+//	#endif 
 #endif
 
-
 #ifdef _MSC_VER
+	/* Disable warnings about "foo() converted to foo(void)" */
+	#pragma warning(disable:4255)
 
-/* Disable warnings about "foo() converted to foo(void)" */
-#pragma warning(disable:4255)
+	/* Disable warnings about "added padding to struct data members" */
+	#pragma warning(disable:4820)
 
-/* Disable warnings about "added padding to struct data members" */
-#pragma warning(disable:4820)
-
-/* Disable warnings about "function not inlined" */
-#pragma warning(disable:4710)
+	/* Disable warnings about "function not inlined" */
+	#pragma warning(disable:4710)
 #endif
 

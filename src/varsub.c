@@ -1,29 +1,26 @@
 /* Sccsid:     @(#)varsub.c	2.1.8.3 */
 #include "config.h"
 #include <stdio.h>
-
-#ifdef _POSIX_C_SOURCE
-#include <stdlib.h>
-#else
-#ifdef HAVE_MALLOC_H
-#include <malloc.h>
-#else
-#error "No place to get the malloc() definition from."
-#endif /* HAVE_MALLOC_H */
-#endif /* _POSIX_C_SOURCE */
-
-#if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )
-#ifndef DOS
-#include <unistd.h>
-#endif
-#endif /* WIN32 */
 #include <string.h>
-#include "config.h"
+
+#if defined(HAVE_MALLOC_IN_STDLIB)
+	#include <stdlib.h>
+#elif defined(HAVE_MALLOC_H)
+	#include <malloc.h>
+#else
+	#error "No place to get the malloc() definition from."
+#endif
+
+#ifdef HAVE_UNISTD_H
+	#include <unistd.h>
+#endif
+
 #include "dss.h"
 #include "tpcd.h"
+
 #ifdef ADHOC
-#include "adhoc.h"
-extern adhoc_t adhocs[];
+	#include "adhoc.h"
+	extern adhoc_t adhocs[];
 #endif /* ADHOC */
 
 #define MAX_PARAM	10		/* maximum number of parameter substitutions in a query */

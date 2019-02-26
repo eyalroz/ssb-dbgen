@@ -1,26 +1,20 @@
 /* @(#)print.c	2.1.8.2 */
 /* generate flat files for data load */
 #include <stdio.h>
-#ifndef VMS
-#include <sys/types.h>
-#endif
-
-#if defined(SUN)
-#include <unistd.h>
-#endif
-
-#if defined(LINUX)
-#include <unistd.h>
-#endif /*LINUX*/
-
 #include <math.h>
+#include <time.h>
+#include <string.h>
+
+#ifdef HAVE_SYS_TYPES_H // originally #ifndef VMS
+	#include <sys/types.h>
+#endif
+
+#ifdef HAVE_UNISTD_H
+	#include <unistd.h>
+#endif
 
 #include "dss.h"
 #include "dsstypes.h"
-#include <string.h>
-
-#include <stdio.h>
-#include <time.h>
 
 
 /*

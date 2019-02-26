@@ -8,39 +8,38 @@
 #define  DSS_H
 
 #ifdef SSB
-#define NAME			"SSB (Star Schema Benchmark)"
-#define VERSION           1
-#define RELEASE           0
-#define MODIFICATION      0
-#define PATCH             ""
+	#define NAME			"SSB (Star Schema Benchmark)"
+	#define VERSION           1
+	#define RELEASE           0
+	#define MODIFICATION      0
+	#define PATCH             ""
 
+	/*global variables*/
+	/*SSB added DATE table*/
+	#define  DATE           4
 
-/*global variables*/
-/*SSB added DATE table*/
-#define  DATE           4
-
-/*SSB use the lineorder without partsupp and order table*/
-#define  L_SKEY_MIN   1
-#define  L_SKEY_MAX (tdefs[SUPP].base * scale)
-
+	/*SSB use the lineorder without partsupp and order table*/
+	#define  L_SKEY_MIN   1
+	#define  L_SKEY_MAX (tdefs[SUPP].base * scale)
 #endif
 
 #ifdef TPCH
-#define NAME			"TPC-H"
-#define VERSION           1
-#define RELEASE           3
-#define MODIFICATION      0
-#define PATCH             ""
+	#define NAME			"TPC-H"
+	#define VERSION           1
+	#define RELEASE           3
+	#define MODIFICATION      0
+	#define PATCH             ""
 #endif
 #ifdef TPCR
-#define NAME			"TPC-R"
-#define VERSION           1
-#define RELEASE           3
-#define MODIFICATION      0
-#define PATCH             ""
+	#define NAME			"TPC-R"
+	#define VERSION           1
+	#define RELEASE           3
+	#define MODIFICATION      0
+	#define PATCH             ""
 #endif
+
 #ifndef NAME
-#error Benchmark version must be defined in config.h
+	#error Benchmark version must be defined in config.h
 #endif
 #define TPC             "Transaction Processing Performance Council"
 #define C_DATES         "1994 - 2000"
