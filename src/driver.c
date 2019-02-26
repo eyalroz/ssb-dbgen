@@ -23,6 +23,11 @@
 #include <strings.h>
 #endif
 
+#ifdef HAVE_SYS_TYPES_H
+	#include <sys/types.h>
+#endif
+
+
 #if (defined(HAVE_UNISTD_H) && defined(HAVE_SYS_WAIT_H)) // POSIX-compatible system
 #include <unistd.h>
 #include <sys/wait.h>

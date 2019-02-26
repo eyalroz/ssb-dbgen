@@ -101,6 +101,10 @@
 #define PATH_SEP '/'
 #endif
 
+#if (!defined(HAVE_UNISTD_H) && !defined(HAVE_PID_T_IN_SYS_TYPES_H))
+	typedef int pid_t;
+#endif
+
 // These macros aren't being used in code currently and parallel load is allowed 
 // only for POSIX-compatible systems (with fork, kill and wait).
 //#if (defined(HAVE_UNISTD_H) && defined(HAVE_SYS_WAIT_H))
@@ -109,7 +113,6 @@
 //#define SPAWN   fork
 //#define WAIT(res, pid) wait(res)
 //#else
-typedef int pid_t;
 //#define SET_HANDLER(proc) signal(SIGINT, proc)
 //#define KILL(pid) TerminateProcess(OpenProcess(PROCESS_TERMINATE,FALSE,pid),3)
 //
