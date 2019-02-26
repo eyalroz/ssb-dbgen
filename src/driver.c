@@ -6,26 +6,28 @@
 #define NO_LFUNC (long (*) ()) NULL		/* to clean up tdefs */
 
 #include "config.h"
-#include <stdlib.h>
-#if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )		/* Change for Windows NT */
-#ifndef DOS
-#include <unistd.h>
-#include <sys/wait.h>
-#endif
+#if (defined(HAVE_FORK) && defined(HAVE_WAIT) && defined(HAVE_KILL))
+#define CAN_PARALLELIZE_DATA_GENERATION
+#endif /* (defined(HAVE_FORK) && defined(HAVE_WAIT) && defined(HAVE_KILL)) */
 
-#endif /* WIN32 */
-#include <stdio.h>				/* */
+#include <stdlib.h>
+#include <stdio.h>
 #include <limits.h>
 #include <math.h>
 #include <ctype.h>
 #include <signal.h>
 #include <string.h>
 #include <errno.h>
+
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
-/* TODO: Do we really need al of these Windows-specifi definitions? */
-#if ( defined(WIN32) && !defined(_POSIX_C_SOURCE) )
+
+#if (defined(HAVE_UNISTD_H) && defined(HAVE_SYS_WAIT_H)) // POSIX-compatible system
+#include <unistd.h>
+#include <sys/wait.h>
+#elif (defined(HAVE_PROCESS_H) && defined(HAVE_WINDOWS_H)) // Windows system
+/* TODO: Do we really need all of these Windows-specific definitions? */
 #include <process.h>
 #pragma warning(disable:4201)
 #pragma warning(disable:4214)
@@ -287,7 +289,7 @@ stop_proc (int signum)
  * have been tested or even built on non-Linux platforms.
  */
 
-#if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )
+#ifdef HAVE_KILL
 
 void
 kill_load (void)
@@ -653,8 +655,7 @@ partial (int tbl, int s)
  * even built on non-Linux platforms.
  */
 
-#if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )
-
+#ifdef CAN_PARALLELIZE_DATA_GENERATION
 int
 pload (int tbl)
 {
@@ -721,7 +722,7 @@ pload (int tbl)
 		fprintf (stderr, "done\n");
 	return (0);
 }
-#endif /* ( defined(_POSIX_C_SOURCE) || !defined(WIN32) ) */
+#endif /* CAN_PARALLELIZE_DATA_GENERATION */
 
 
 void
@@ -1120,14 +1121,7 @@ main (int ac, char **av)
 					else
 						partial (i, step);
 				}
-#ifndef _POSIX_C_SOURCE
-				else
-				{
-					fprintf (stderr,
-						"Parallel load is not supported on your platform.\n");
-					exit (1);
-				}
-#else
+#ifdef CAN_PARALLELIZE_DATA_GENERATION
 				else
 				{
 					if (validate)
@@ -1135,9 +1129,16 @@ main (int ac, char **av)
 						INTERNAL_ERROR("Cannot validate parallel data generation");
 					}
 					else
-						pload (i);
+						pload(i);
 				}
-#endif /* _POSIX_C_SOURCE */
+#else
+				else
+				{
+					fprintf(stderr,
+						"Parallel load is not supported on your platform currently.\n");
+					exit(1);
+				}
+#endif /* CAN_PARALLELIZE_DATA_GENERATION */
 			}
 			else
 			{

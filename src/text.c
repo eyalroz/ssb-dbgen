@@ -12,21 +12,22 @@
 
 #include "config.h"
 #include <stdlib.h>
-#if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )		/* Change for Windows NT */
-/*#include <unistd.h>
-#include <sys/wait.h>*/
-#endif /* WIN32 */
-#include <stdio.h>				/* */
+#include <stdio.h>
 #include <limits.h>
 #include <math.h>
 #include <ctype.h>
 #include <signal.h>
 #include <string.h>
 #include <errno.h>
+
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
-#endif
-#if ( defined(WIN32) && !defined(_POSIX_C_SOURCE) )
+#endif /* HAVE_STRINGS_H */
+
+#if (defined(HAVE_UNISTD_H) && defined(HAVE_SYS_WAIT_H)) // POSIX-compatible system
+//#include <unistd.h>
+//#include <sys/wait.h>
+#elif (defined(HAVE_PROCESS_H) && defined(HAVE_WINDOWS_H)) // Windows system
 #include <process.h>
 #pragma warning(disable:4201)
 #pragma warning(disable:4214)
@@ -50,7 +51,7 @@
 #include <windows.h>
 #pragma warning(default:4201)
 #pragma warning(default:4214)
-#endif
+#endif /* (defined(HAVE_UNISTD_H) && defined(HAVE_SYS_WAIT_H)) */
 
 #include "dss.h"
 #include "dsstypes.h"

@@ -1,24 +1,20 @@
 /* Sccsid:     @(#)varsub.c	2.1.8.3 */
 #include "config.h"
 #include <stdio.h>
+#include <string.h>
 
-#ifdef _POSIX_C_SOURCE
+#if defined(HAVE_MALLOC_IN_STDLIB)
 #include <stdlib.h>
-#else
-#ifdef HAVE_MALLOC_H
+#elif defined(HAVE_MALLOC_H)
 #include <malloc.h>
 #else
 #error "No place to get the malloc() definition from."
-#endif /* HAVE_MALLOC_H */
-#endif /* _POSIX_C_SOURCE */
+#endif /* defined(HAVE_MALLOC_IN_STDLIB) */
 
-#if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )
-#ifndef DOS
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#endif /* WIN32 */
-#include <string.h>
-#include "config.h"
+
 #include "dss.h"
 #include "tpcd.h"
 #ifdef ADHOC

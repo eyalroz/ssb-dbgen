@@ -1,23 +1,23 @@
 /* @(#)build.c	2.1.8.1 */
 /* Sccsid:     @(#)build.c	9.1.1.17     11/15/95  12:52:28 */
 /* stuff related to the customer table */
+
+#include "config.h"
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
+
 #ifdef SSB
 #include <time.h>
 #endif
-#ifndef VMS
+
+#ifdef HAVE_SYS_TYPES_H // #ifndef VMS originally
 #include <sys/types.h>
-#endif
-#if defined(SUN)
-#include <unistd.h>
-#endif
+#endif /* HAVE_SYS_TYPES_H */
 
-#if defined(LINUX)
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-
-#include <math.h>
+#endif /* HAVE_UNISTD_H */
 
 #include "dss.h"
 #include "dsstypes.h"

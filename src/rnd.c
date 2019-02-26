@@ -20,16 +20,12 @@
 #include <assert.h>
 
 /* Note: This file may not currently be using anything from <inttypes.h> or <stdint.h> */
-#ifdef HAVE_INTTYPES_H
+#if defined(HAVE_INTTYPES_H)
 #include <inttypes.h>
-#else  /* HAVE_INTTYPES_H */
-#ifdef HAVE_STDINT_H
+#elif defined(HAVE_STDINT_H)
 #include <stdint.h>
-#else  /* HAVE_STDINT_H */
-#ifdef HAVE_SYS_BITTYPES_H
+#elif defined(HAVE_SYS_BITTYPES_H)
 #include <sys/bittypes.h>
-#endif /* HAVE_SYS_BITTYPES_H */
-#endif /* HAVE_STDINT_H */
 #endif /* HAVE_INTTYPES_H */
 
 char *env_config PROTO((char *tag, char *dflt));

@@ -19,6 +19,8 @@
  * set_state() -- initialize the RNG
  */
 
+#include "config.h"
+
 /*this has to be put on top...*/
 #ifdef LINUX
 /* turn on GNU extensions, incl O_DIRECT */
@@ -31,29 +33,38 @@
 #include <time.h>
 #include <errno.h>
 #include <string.h>
+#include <ctype.h>
+#include <math.h>
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif 
-#include <ctype.h>
-#include <math.h>
-#ifdef _POSIX_C_SOURCE
+
+#ifdef HAVE_MALLOC_IN_STDLIB
 #include <stdlib.h>
-#else
-#ifdef HAVE_MALLOC_H
+#elif defined(HAVE_MALLOC_H)
 #include <malloc.h>
 #else
 #error "No place to get the malloc() definition from."
-#endif /* HAVE_MALLOC_H */
-#endif /* _POSIX_C_SOURCE */
+#endif /* HAVE_MALLOC_IN_STDLIB */
 
+
+#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
+#endif /* HAVE_FCNTL_H */
+
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif /* HAVE_SYS_TYPES_H */
+
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
 
 #ifdef IBM
 #include <sys/mode.h>
 #endif /* IBM */
-#include <sys/types.h>
-#include <sys/stat.h>
+
 /* Lines added by Chuck McDevitt for WIN32 support */
 #if	(defined(WIN32)||defined(DOS))
 #ifndef _POSIX_C_SOURCE
