@@ -10,67 +10,62 @@
 #define  V_STR_HGH    1.6
 
 #ifdef SSB
-#define  P_NAME_LEN    22
-#define  P_MFG_LEN     6
-#define  P_COLOR_LEN   3
-#define  P_COLOR_MAX   11
-#define  P_TYPE_MAX    25
-#define  P_CAT_LEN     7
-#define  P_CAT_MIN     1
-#define  P_CAT_MAX     5
-/*
- *
- * In the originally-published version of this file,
- * the following definition was included:
- *
- *   #define  P_CAT_SD      97
- *
- * but that's inappropriate, both since seeds are defined in dss.h,
- * and because it exceeds MAX_STREAM, so it's not covered by the Seed
- * array (see rnd.h). Now, magically, this often didn't trigger
- * a segmentation fault, despite out-of-bounds access to Seed[P_CAT_SD];
- * but the value was junk; or maybe it was 0, due to some fortunate
- * coincidence.
- *
- * At any rate, this was moved and changed.
- */
-#define  S_NATION_NAME_LEN 15
-#define  S_REGION_NAME_LEN 12
-#define  C_NATION_NAME_LEN 15
-#define  C_REGION_NAME_LEN 12
-#define  C_NAT_SD     16
-#define  C_REG_SD      3
-#define  O_SHIP_STRU_LEN 25
-#define  O_SHIP_MODE_LEN 10
-#define  O_SHIP_PRIO_LEN 1
-#define  D_DATE_LEN 18
-#define  D_DAYWEEK_LEN 9
-#define  D_YEARMONTH_LEN 7
-#define  D_SEASON_LEN 12
-#define  D_MONTH_LEN  9
-#define  D_STARTDATE 694245661 /*corresponding to 1/1/1992 1:1:1*/
-#define NAMTION_BRIEF_LEN  9
-#define CITY_CODE_SEED   15  
-#define NUM_DAYS 2556
-#define NUM_SEASONS 5
-#define NUM_HOLIDAYS 10
-#define CITY_FIX 10
+    #define  P_NAME_LEN    22
+    #define  P_MFG_LEN     6
+    #define  P_COLOR_LEN   3
+    #define  P_COLOR_MAX   11
+    #define  P_TYPE_MAX    25
+    #define  P_CAT_LEN     7
+    #define  P_CAT_MIN     1
+    #define  P_CAT_MAX     5
+    /*
+     *
+     * In the originally-published version of this file,
+     * the following definition was included:
+     *
+     *   #define  P_CAT_SD      97
+     *
+     * but that's inappropriate, both since seeds are defined in dss.h,
+     * and because it exceeds MAX_STREAM, so it's not covered by the Seed
+     * array (see rnd.h). Now, magically, this often didn't trigger
+     * a segmentation fault, despite out-of-bounds access to Seed[P_CAT_SD];
+     * but the value was junk; or maybe it was 0, due to some fortunate
+     * coincidence.
+     *
+     * At any rate, this was moved and changed.
+     */
+    #define  S_NATION_NAME_LEN 15
+    #define  S_REGION_NAME_LEN 12
+    #define  C_NATION_NAME_LEN 15
+    #define  C_REGION_NAME_LEN 12
+    #define  C_NAT_SD     16
+    #define  C_REG_SD      3
+    #define  O_SHIP_STRU_LEN 25
+    #define  O_SHIP_MODE_LEN 10
+    #define  O_SHIP_PRIO_LEN 1
+    #define  D_DATE_LEN 18
+    #define  D_DAYWEEK_LEN 9
+    #define  D_YEARMONTH_LEN 7
+    #define  D_SEASON_LEN 12
+    #define  D_MONTH_LEN  9
+    #define  D_STARTDATE 694245661 /*corresponding to 1/1/1992 1:1:1*/
+    #define NAMTION_BRIEF_LEN  9
+    #define CITY_CODE_SEED   15
+    #define NUM_DAYS 2556
+    #define NUM_SEASONS 5
+    #define NUM_HOLIDAYS 10
+    #define CITY_FIX 10
 #else
-
-#define  P_NAME_LEN    55
-#define  P_MFG_LEN     25
-
+    #define  P_NAME_LEN    55
+    #define  P_MFG_LEN     25
 #endif
 
 #define  P_BRND_LEN    10
 
 #ifdef SSB
-#define  P_TYPE_LEN    12
-
+    #define  P_TYPE_LEN    12
 #else
-
-#define  P_TYPE_LEN    25
-
+    #define  P_TYPE_LEN    25
 #endif
 
 #define  P_CNTR_LEN    10
@@ -81,12 +76,11 @@
 #define  S_NAME_LEN    25
 
 #ifdef SSB
-#define  S_ADDR_LEN    15
-#define  S_ADDR_MAX    25
+    #define  S_ADDR_LEN    15
+    #define  S_ADDR_MAX    25
 #else
-
-#define  S_ADDR_LEN    25
-#define  S_ADDR_MAX    40
+    #define  S_ADDR_LEN    25
+    #define  S_ADDR_MAX    40
 #endif
 
 #define  S_CMNT_LEN    63
@@ -95,15 +89,15 @@
 #define  PS_CMNT_MAX  199
 
 #ifdef SSB
-#define  C_NAME_LEN    25
-#define  C_MSEG_MIN    1
-#define  C_MSEG_MAX    5
-#define  C_ADDR_LEN    15
-#define  C_ADDR_MAX    25
+    #define  C_NAME_LEN    25
+    #define  C_MSEG_MIN    1
+    #define  C_MSEG_MAX    5
+    #define  C_ADDR_LEN    15
+    #define  C_ADDR_MAX    25
 #else
-#define  C_NAME_LEN    18
-#define  C_ADDR_LEN    25
-#define  C_ADDR_MAX    40
+    #define  C_NAME_LEN    18
+    #define  C_ADDR_LEN    25
+    #define  C_ADDR_MAX    40
 #endif
 
 #define  C_MSEG_LEN    10
@@ -111,11 +105,9 @@
 #define  C_CMNT_MAX    117
 
 #ifdef SSB
-#define  O_OPRIO_LEN   8
-
+    #define  O_OPRIO_LEN   8
 #else
-#define  O_OPRIO_LEN   15
-
+    #define  O_OPRIO_LEN   15
 #endif
 
 #define  O_CLRK_LEN    15
@@ -132,9 +124,9 @@
 #define  PHONE_LEN     15
 
 #ifdef SSB
-#define  MAXAGG_LEN    15    /* max component length for agg str; longest string is "4-NOT SPECIFIED" */
+    #define  MAXAGG_LEN    15    /* max component length for agg str; longest string is "4-NOT SPECIFIED" */
 #else
-#define  MAXAGG_LEN    20    /* max component length for a agg str */
+    #define  MAXAGG_LEN    20    /* max component length for a agg str */
 #endif
 
 #define  P_CMNT_SD      6

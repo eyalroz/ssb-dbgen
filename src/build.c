@@ -4,17 +4,17 @@
 #include <stdio.h>
 #include <string.h>
 #ifdef SSB
-#include <time.h>
+    #include <time.h>
 #endif
 #ifndef VMS
-#include <sys/types.h>
+    #include <sys/types.h>
 #endif
 #if defined(SUN)
-#include <unistd.h>
+    #include <unistd.h>
 #endif
 
 #if defined(LINUX)
-#include <unistd.h>
+    #include <unistd.h>
 #endif
 
 #include <math.h>
@@ -22,9 +22,10 @@
 #include "dss.h"
 #include "dsstypes.h"
 #include "bcd2.h"
+
 #ifdef ADHOC
-#include "adhoc.h"
-extern adhoc_t adhocs[];
+    #include "adhoc.h"
+    extern adhoc_t adhocs[];
 #endif /* ADHOC */
 
 #define LEAP_ADJ(yr, mnth)      \

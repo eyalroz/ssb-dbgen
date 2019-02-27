@@ -7,11 +7,13 @@
 
 #include <stdio.h>
 #include <string.h>
+
 #if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )
-#include <unistd.h>
+    #include <unistd.h>
 #else
-#include "process.h"
+    #include "process.h"
 #endif /* WIN32 */
+
 #include <ctype.h>
 #include <time.h>
 #include "config.h"

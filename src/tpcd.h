@@ -34,48 +34,48 @@
  * database portability defines
  */
 #ifdef DB2
-#define GEN_QUERY_PLAN  "SET CURRENT EXPLAIN SNAPSHOT ON;"
-#define START_TRAN      ""
-#define END_TRAN        "COMMIT WORK;"
-#define SET_OUTPUT      ""
-#define SET_ROWCOUNT    "--#SET ROWS_FETCH %d\n"
-#define SET_DBASE       "CONNECT TO %s ;\n"
+    #define GEN_QUERY_PLAN  "SET CURRENT EXPLAIN SNAPSHOT ON;"
+    #define START_TRAN      ""
+    #define END_TRAN        "COMMIT WORK;"
+    #define SET_OUTPUT      ""
+    #define SET_ROWCOUNT    "--#SET ROWS_FETCH %d\n"
+    #define SET_DBASE       "CONNECT TO %s ;\n"
 #endif
 
 #ifdef INFORMIX
-#define GEN_QUERY_PLAN  "SET EXPLAIN ON;"
-#define START_TRAN      "BEGIN WORK;"
-#define END_TRAN        "COMMIT WORK;"
-#define SET_OUTPUT      "OUTPUT TO "
-#define SET_ROWCOUNT    "FIRST %d"
-#define SET_DBASE       "database %s ;\n"
+    #define GEN_QUERY_PLAN  "SET EXPLAIN ON;"
+    #define START_TRAN      "BEGIN WORK;"
+    #define END_TRAN        "COMMIT WORK;"
+    #define SET_OUTPUT      "OUTPUT TO "
+    #define SET_ROWCOUNT    "FIRST %d"
+    #define SET_DBASE       "database %s ;\n"
 #endif
 
 #ifdef 	SQLSERVER
-#define GEN_QUERY_PLAN  "set showplan on\nset noexec on\ngo\n"
-#define START_TRAN      "begin transaction\ngo\n"
-#define END_TRAN        "commit transaction\ngo\n"
-#define SET_OUTPUT      ""
-#define SET_ROWCOUNT    "set rowcount %d\ngo\n\n"
-#define SET_DBASE       "use %s\ngo\n"
+    #define GEN_QUERY_PLAN  "set showplan on\nset noexec on\ngo\n"
+    #define START_TRAN      "begin transaction\ngo\n"
+    #define END_TRAN        "commit transaction\ngo\n"
+    #define SET_OUTPUT      ""
+    #define SET_ROWCOUNT    "set rowcount %d\ngo\n\n"
+    #define SET_DBASE       "use %s\ngo\n"
 #endif
 
 #ifdef 	SYBASE
-#define GEN_QUERY_PLAN  "set showplan on\nset noexec on\ngo\n"
-#define START_TRAN      "begin transaction\ngo\n"
-#define END_TRAN        "commit transaction\ngo\n"
-#define SET_OUTPUT      ""
-#define SET_ROWCOUNT    "set rowcount %d\ngo\n\n"
-#define SET_DBASE       "use %s\ngo\n"
+    #define GEN_QUERY_PLAN  "set showplan on\nset noexec on\ngo\n"
+    #define START_TRAN      "begin transaction\ngo\n"
+    #define END_TRAN        "commit transaction\ngo\n"
+    #define SET_OUTPUT      ""
+    #define SET_ROWCOUNT    "set rowcount %d\ngo\n\n"
+    #define SET_DBASE       "use %s\ngo\n"
 #endif
 
 #ifdef TDAT
-#define GEN_QUERY_PLAN  "EXPLAIN"
-#define START_TRAN      "BEGIN TRANSACTION"
-#define END_TRAN        "END TRANSACTION"
-#define SET_OUTPUT      ".SET FORMAT OFF\n.EXPORT REPORT file="
-#define SET_ROWCOUNT    ".SET RETCANCEL ON\n.SET RETLIMIT %d\n"
-#define SET_DBASE       ".LOGON %s\n"
+    #define GEN_QUERY_PLAN  "EXPLAIN"
+    #define START_TRAN      "BEGIN TRANSACTION"
+    #define END_TRAN        "END TRANSACTION"
+    #define SET_OUTPUT      ".SET FORMAT OFF\n.EXPORT REPORT file="
+    #define SET_ROWCOUNT    ".SET RETCANCEL ON\n.SET RETLIMIT %d\n"
+    #define SET_DBASE       ".LOGON %s\n"
 #endif
 
 #define MAX_VARS      8 /* max number of host vars in any query */

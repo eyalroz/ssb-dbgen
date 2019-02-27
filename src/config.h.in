@@ -36,25 +36,19 @@
 #define _FILE_OFFSET_BITS 64
 
 #if (@SIZEOF_LONG@ == 8)
-#define SIGNED_64_BIT_C_TYPE long
-#define SIGNED_64_BIT_PRINTF_MODIFIER "l"
+    #define SIGNED_64_BIT_C_TYPE long
+    #define SIGNED_64_BIT_PRINTF_MODIFIER "l"
+#elif (@SIZEOF_LONG_LONG@ == 8)
+    #define SIGNED_64_BIT_C_TYPE long long
+    #define SIGNED_64_BIT_PRINTF_MODIFIER "ll"
+#elif (@SIZEOF_SHORT@ == "8")
+    #define SIGNED_64_BIT_C_TYPE short
+    #define SIGNED_64_BIT_PRINTF_MODIFIER "s"
+#elif (@SIZEOF_INT@ == "8")
+    #define SIGNED_64_BIT_C_TYPE int
+    #define SIGNED_64_BIT_PRINTF_MODIFIER
 #else
-#if (@SIZEOF_LONG_LONG@ == 8)
-#define SIGNED_64_BIT_C_TYPE long long
-#define SIGNED_64_BIT_PRINTF_MODIFIER "ll"
-#else
-#if (@SIZEOF_SHORT@ == "8")
-#define SIGNED_64_BIT_C_TYPE short
-#define SIGNED_64_BIT_PRINTF_MODIFIER "s"
-#else
-#if (@SIZEOF_INT@ == "8")
-#define SIGNED_64_BIT_C_TYPE int
-#define SIGNED_64_BIT_PRINTF_MODIFIER
-#else
-#error "No standard C integer type has size 8"
-#endif
-#endif
-#endif
+    #error "No standard C integer type has size 8"
 #endif
 
 #define DSS_HUGE          SIGNED_64_BIT_C_TYPE
@@ -64,46 +58,46 @@
 
 #cmakedefine01 HAVE_GETOPT
 #if (HAVE_GETOPT == 1)
-#define STDLIB_HAS_GETOPT 1
+    #define STDLIB_HAS_GETOPT 1
 #endif
 
 #cmakedefine01 HAVE_GETPID
 #if (HAVE_GETPID == 1)
-#define DSS_PROC getpid()
+    #define DSS_PROC getpid()
 #else
-#define DSS_PROC 1
+    #define DSS_PROC 1
 #endif
 
 #define RNG_A	6364136223846793005ull
 #define RNG_C	1ull
 
 #ifdef __APPLE__ 
-#define _POSIX_C_SOURCE 200112L
+    #define _POSIX_C_SOURCE 200112L
 #endif 
 
 #if (defined(_WIN32) && !defined(_POSIX)) || defined(__CYGWIN__)
-#define PATH_SEP '\\'
+    #define PATH_SEP '\\'
 #else
-#define PATH_SEP '/'
+    #define PATH_SEP '/'
 #endif
 
 #if (defined(_WIN32) && !defined(_POSIX)) || defined(__CYGWIN__)
-#define pid_t int
-#define SET_HANDLER(proc) signal(SIGINT, proc)
-#define KILL(pid) TerminateProcess(OpenProcess(PROCESS_TERMINATE,FALSE,pid),3)
-#if (defined (__WATCOMC__))
-#define SPAWN()   spawnv(P_NOWAIT, spawn_args[0], spawn_args)
-#define WAIT(res, pid) cwait(res, pid, WAIT_CHILD)
-#else /* MSVC (?) */
-#define SPAWN()   _spawnv(_P_NOWAIT, spawn_args[0], spawn_args)
-#define WAIT(res, pid) _cwait(res, pid, _WAIT_CHILD)
-#define getpid          _getpid
-#endif /* WATCOMC */
+    #define pid_t int
+    #define SET_HANDLER(proc) signal(SIGINT, proc)
+    #define KILL(pid) TerminateProcess(OpenProcess(PROCESS_TERMINATE,FALSE,pid),3)
+    #if (defined (__WATCOMC__))
+        #define SPAWN()   spawnv(P_NOWAIT, spawn_args[0], spawn_args)
+        #define WAIT(res, pid) cwait(res, pid, WAIT_CHILD)
+    #else /* MSVC (?) */
+        #define SPAWN()   _spawnv(_P_NOWAIT, spawn_args[0], spawn_args)
+        #define WAIT(res, pid) _cwait(res, pid, _WAIT_CHILD)
+        #define getpid          _getpid
+    #endif /* WATCOMC */
 #else
-#define KILL(pid) kill(SIGUSR1, pid)
-#define SET_HANDLER(proc) signal(SIGUSR1, proc)
-#define SPAWN   fork
-#define WAIT(res, pid) wait(res)
+    #define KILL(pid) kill(SIGUSR1, pid)
+    #define SET_HANDLER(proc) signal(SIGUSR1, proc)
+    #define SPAWN   fork
+    #define WAIT(res, pid) wait(res)
 #endif
 
 

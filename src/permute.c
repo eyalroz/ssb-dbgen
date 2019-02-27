@@ -5,51 +5,56 @@
 */
 
 #ifdef TEST
-#define DECLARER
+    #define DECLARER
 #endif
+
 #include "config.h"
 #include "dss.h"
 #ifdef TEST
-#include <stdlib.h>
-#if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )		/* Change for Windows NT */
-#include <unistd.h>
-#include <sys/wait.h>
-#endif /* WIN32 */
-#include <stdio.h>				/* */
-#include <limits.h>
-#include <math.h>
-#include <ctype.h>
-#include <signal.h>
-#include <string.h>
-#include <errno.h>
-#ifdef HAVE_STRINGS_H
-#include <strings.h>
-#endif
-#if ( defined(WIN32) && !defined(_POSIX_C_SOURCE) )
-#include <process.h>
-#pragma warning(disable:4201)
-#pragma warning(disable:4214)
-#pragma warning(disable:4514)
-#define WIN32_LEAN_AND_MEAN
-#define NOATOM
-#define NOGDICAPMASKS
-#define NOMETAFILE
-#define NOMINMAX
-#define NOMSG
-#define NOOPENFILE
-#define NORASTEROPS
-#define NOSCROLL
-#define NOSOUND
-#define NOSYSMETRICS
-#define NOTEXTMETRIC
-#define NOWH
-#define NOCOMM
-#define NOKANJI
-#define NOMCX
-#include <windows.h>
-#pragma warning(default:4201)
-#pragma warning(default:4214)
-#endif
+    #include <stdlib.h>
+
+    #if ( defined(_POSIX_C_SOURCE) || !defined(WIN32) )		/* Change for Windows NT */
+        #include <unistd.h>
+        #include <sys/wait.h>
+    #endif /* WIN32 */
+
+    #include <stdio.h>				/* */
+    #include <limits.h>
+    #include <math.h>
+    #include <ctype.h>
+    #include <signal.h>
+    #include <string.h>
+    #include <errno.h>
+
+    #ifdef HAVE_STRINGS_H
+        #include <strings.h>
+    #endif
+
+    #if ( defined(WIN32) && !defined(_POSIX_C_SOURCE) )
+        #include <process.h>
+        #pragma warning(disable:4201)
+        #pragma warning(disable:4214)
+        #pragma warning(disable:4514)
+        #define WIN32_LEAN_AND_MEAN
+        #define NOATOM
+        #define NOGDICAPMASKS
+        #define NOMETAFILE
+        #define NOMINMAX
+        #define NOMSG
+        #define NOOPENFILE
+        #define NORASTEROPS
+        #define NOSCROLL
+        #define NOSOUND
+        #define NOSYSMETRICS
+        #define NOTEXTMETRIC
+        #define NOWH
+        #define NOCOMM
+        #define NOKANJI
+        #define NOMCX
+        #include <windows.h>
+        #pragma warning(default:4201)
+        #pragma warning(default:4214)
+    #endif
 #endif
 
 long NextRand(long seed);

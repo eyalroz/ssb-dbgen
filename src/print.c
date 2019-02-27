@@ -2,15 +2,15 @@
 /* generate flat files for data load */
 #include <stdio.h>
 #ifndef VMS
-#include <sys/types.h>
+    #include <sys/types.h>
 #endif
 
 #if defined(SUN)
-#include <unistd.h>
+    #include <unistd.h>
 #endif
 
 #if defined(LINUX)
-#include <unistd.h>
+    #include <unistd.h>
 #endif /*LINUX*/
 
 #include <math.h>

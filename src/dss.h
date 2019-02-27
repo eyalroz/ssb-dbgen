@@ -8,39 +8,38 @@
 #define  DSS_H
 
 #ifdef SSB
-#define NAME			"SSB (Star Schema Benchmark)"
-#define VERSION           1
-#define RELEASE           0
-#define MODIFICATION      0
-#define PATCH             ""
+    #define NAME			"SSB (Star Schema Benchmark)"
+    #define VERSION           1
+    #define RELEASE           0
+    #define MODIFICATION      0
+    #define PATCH             ""
 
 
-/*global variables*/
-/*SSB added DATE table*/
-#define  DATE           4
+    /*global variables*/
+    /*SSB added DATE table*/
+    #define  DATE           4
 
-/*SSB use the lineorder without partsupp and order table*/
-#define  L_SKEY_MIN   1
-#define  L_SKEY_MAX (tdefs[SUPP].base * scale)
-
+    /*SSB use the lineorder without partsupp and order table*/
+    #define  L_SKEY_MIN   1
+    #define  L_SKEY_MAX (tdefs[SUPP].base * scale)
 #endif
 
 #ifdef TPCH
-#define NAME			"TPC-H"
-#define VERSION           1
-#define RELEASE           3
-#define MODIFICATION      0
-#define PATCH             ""
+    #define NAME			"TPC-H"
+    #define VERSION           1
+    #define RELEASE           3
+    #define MODIFICATION      0
+    #define PATCH             ""
 #endif
 #ifdef TPCR
-#define NAME			"TPC-R"
-#define VERSION           1
-#define RELEASE           3
-#define MODIFICATION      0
-#define PATCH             ""
+    #define NAME			"TPC-R"
+    #define VERSION           1
+    #define RELEASE           3
+    #define MODIFICATION      0
+    #define PATCH             ""
 #endif
 #ifndef NAME
-#error Benchmark version must be defined in config.h
+    #error Benchmark version must be defined in config.h
 #endif
 #define TPC             "Transaction Processing Performance Council"
 #define C_DATES         "1994 - 2000"
@@ -51,7 +50,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef SSB
-#include <math.h>
+    #include <math.h>
 #endif
 
 #define  NONE		-1
@@ -80,7 +79,7 @@
 #define MIN(A,B)  ( (A) < (B) ? (A) : (B))
 
 #ifndef UNUSED
-#define UNUSED(x) (void) x
+    #define UNUSED(x) (void) x
 #endif
 
 #define INTERNAL_ERROR(p)  {fprintf(stderr,"%s", p);abort();}
@@ -100,7 +99,7 @@
         exit(1);\
         }
 #ifndef MAX_CHILDREN
-#define MAX_CHILDREN    1000
+    #define MAX_CHILDREN    1000
 #endif
 
 /*
@@ -109,8 +108,8 @@
  * refer to Porting.Notes for a complete explanation
  */
 #ifndef BITS_PER_LONG
-#define BITS_PER_LONG   32
-#define MAX_LONG        0x7FFFFFFF
+    #define BITS_PER_LONG   32
+    #define MAX_LONG        0x7FFFFFFF
 #endif /* BITS_PER_LONG */
 #define SPARSE_BITS      2
 #define SPARSE_KEEP      3
@@ -178,9 +177,9 @@ typedef struct SEED_T {
 
 
 #if defined(__STDC__)
-#define PROTO(s) s
+    #define PROTO(s) s
 #else
-#define PROTO(s) ()
+    #define PROTO(s) ()
 #endif
 
 /* bm_utils.c */
@@ -220,9 +219,9 @@ void	dump_seeds(int t);
 int		dbg_text PROTO((char * t, int min, int max, int s));
 
 #ifdef DECLARER
-#define EXTERN
+    #define EXTERN
 #else
-#define EXTERN extern
+    #define EXTERN extern
 #endif            /* DECLARER */
 
 
@@ -300,10 +299,11 @@ extern tdef tdefs[];
  */
 #define  P_SIZE       126
 #ifdef SSB
-#define  P_NAME_SCL   3     /*5 change to 3 according to the new schema*/
+    #define  P_NAME_SCL   3     /*5 change to 3 according to the new schema*/
 #else
-#define  P_NAME_SCL   5
+    #define  P_NAME_SCL   5
 #endif
+
 #define  P_MFG_TAG    "Manufacturer#"
 #define  P_MFG_FMT     "%s%01ld"
 #define  P_MFG_MIN     1
@@ -313,9 +313,9 @@ extern tdef tdefs[];
 #define  P_BRND_MIN     1
 
 /*#ifdef SSB
-#define  P_BRND_MAX     5
+    #define  P_BRND_MAX     5
 #else*/
-#define  P_BRND_MAX 40
+    #define  P_BRND_MAX 40
 /*#endif*/
 
 #define  P_SIZE_MIN    1
@@ -391,10 +391,10 @@ extern tdef tdefs[];
 #define  L_PKEY_MIN   1
 
 #ifdef SSB
-/*part table log based*/
-#define  L_PKEY_MAX   (tdefs[PART].base * (floor(log((double)scale))+1))
+    /*part table log based*/
+    #define  L_PKEY_MAX   (tdefs[PART].base * (floor(log((double)scale))+1))
 #else
-#define  L_PKEY_MAX   (tdefs[PART].base * scale)
+    #define  L_PKEY_MAX   (tdefs[PART].base * scale)
 #endif
 
 #define  L_SDTE_MIN   1
@@ -427,10 +427,11 @@ extern tdef tdefs[];
 #define  ENDDATE      98365
 #define  TOTDATE      2557
 #define  UPD_PCT      10
+
 #ifdef SSB
-#define  MAX_STREAM   49
+    #define  MAX_STREAM   49
 #else
-#define  MAX_STREAM   47
+    #define  MAX_STREAM   47
 #endif
 
 #define  V_STR_LOW    0.4
@@ -451,34 +452,34 @@ extern tdef tdefs[];
 			}
 #define FREE_HUGE(v)	free(v)
 #ifdef SUPPORT_64BITS
-#define LONG2HUGE(src, dst)		*dst = (DSS_HUGE)src	
-#define HUGE2LONG(src, dst)		*dst = (long)src
-#define HUGE_SET(src, dst)		*dst = *src	
-#define HUGE_MUL(op1, op2)		*op1 *= op2	
-#define HUGE_DIV(op1, op2)		*op1 /= op2	
-#define HUGE_ADD(op1, op2, dst)	*dst = *op1 + op2	
-#define HUGE_SUB(op1, op2, dst)	*dst = *op1 - op2	
-#define HUGE_MOD(op1, op2)		*op1 % op2	
-#define HUGE_CMP(op1, op2)		(*op1 == *op2)?0:(*op1 < *op2)-1:1
+    #define LONG2HUGE(src, dst)		*dst = (DSS_HUGE)src
+    #define HUGE2LONG(src, dst)		*dst = (long)src
+    #define HUGE_SET(src, dst)		*dst = *src
+    #define HUGE_MUL(op1, op2)		*op1 *= op2
+    #define HUGE_DIV(op1, op2)		*op1 /= op2
+    #define HUGE_ADD(op1, op2, dst)	*dst = *op1 + op2
+    #define HUGE_SUB(op1, op2, dst)	*dst = *op1 - op2
+    #define HUGE_MOD(op1, op2)		*op1 % op2
+    #define HUGE_CMP(op1, op2)		(*op1 == *op2)?0:(*op1 < *op2)-1:1
 #else
-#define LONG2HUGE(src, dst)		{*dst = src; *(dst + 1) = 0;}
-#define HUGE2LONG(src, dst)		{ dst=0 ; \
-					bcd2_bin(dst, (src + 1)); \
-					bcd2_bin(dst, src); }
-#define HUGE_SET(src, dst)		{ *dst = *src ; *(dst + 1) = *(src + 1); }
-#define HUGE_MUL(op1,op2)		bcd2_mul(op1, (op1 + 1), op2)
-#define HUGE_DIV(op1,op2)		bcd2_div(op1, (op1 + 1), op2)
-#define HUGE_ADD(op1,op2,d)		{ \
-					HUGE_SET(op1, d); \
-					bcd2_add(d, (d + 1), op2); \
-					}
-#define HUGE_SUB(op1,op2,d)		{ \
-					HUGE_SET(op1, d); \
-					bcd2_sub(d, (d + 1), op2); \
-					}
-#define HUGE_MOD(op1, op2)		bcd2_mod(op1, (op1 + 1), op2)
-#define HUGE_CMP(op1, op2)		(bcd2_cmp(op1, (op1 + 1), op2) == 0)?0:\
-					    ((bcd2_cmp(op1, (op1 + 1), op2) < 0)?-1:1)
+    #define LONG2HUGE(src, dst)		{*dst = src; *(dst + 1) = 0;}
+    #define HUGE2LONG(src, dst)		{ dst=0 ; \
+                        bcd2_bin(dst, (src + 1)); \
+                        bcd2_bin(dst, src); }
+    #define HUGE_SET(src, dst)		{ *dst = *src ; *(dst + 1) = *(src + 1); }
+    #define HUGE_MUL(op1,op2)		bcd2_mul(op1, (op1 + 1), op2)
+    #define HUGE_DIV(op1,op2)		bcd2_div(op1, (op1 + 1), op2)
+    #define HUGE_ADD(op1,op2,d)		{ \
+                        HUGE_SET(op1, d); \
+                        bcd2_add(d, (d + 1), op2); \
+                        }
+    #define HUGE_SUB(op1,op2,d)		{ \
+                        HUGE_SET(op1, d); \
+                        bcd2_sub(d, (d + 1), op2); \
+                        }
+    #define HUGE_MOD(op1, op2)		bcd2_mod(op1, (op1 + 1), op2)
+    #define HUGE_CMP(op1, op2)		(bcd2_cmp(op1, (op1 + 1), op2) == 0)?0:\
+                            ((bcd2_cmp(op1, (op1 + 1), op2) < 0)?-1:1)
 #endif /* SUPPORT_64BITS */
 
 /******** environmental variables and defaults ***************/
@@ -493,14 +494,14 @@ extern tdef tdefs[];
 
 /******* output macros ********/
 #ifndef SEPARATOR
-#define SEPARATOR '|' /* field spearator for generated flat files */
+    #define SEPARATOR '|' /* field spearator for generated flat files */
 #endif
 /* Data type flags for a single print routine */
 #define DT_STR		0
 #ifndef MVS
-#define DT_VSTR		DT_STR
+    #define DT_VSTR		DT_STR
 #else
-#define DT_VSTR		1
+    #define DT_VSTR		1
 #endif /* MVS */
 #define DT_INT		2
 #define DT_HUGE		3
@@ -553,9 +554,9 @@ int dbg_print(int dt, FILE *tgt, void *data, int len, int eol);
 #define  VRF_STR(t, d) {char *xx = d; while (*xx) tdefs[t].vtotal += *xx++;}
 #define  VRF_INT(t,d)  tdefs[t].vtotal += d
 #ifdef SUPPORT_64BITS
-#define  VRF_HUGE(t,d)	tdefs[t].vtotal = *((long *)&d) + *((long *)(&d + 1))
+    #define  VRF_HUGE(t,d)	tdefs[t].vtotal = *((long *)&d) + *((long *)(&d + 1))
 #else
-#define VRF_HUGE(t,d)	tdefs[t].vtotal += d[0] + d[1]
+    #define VRF_HUGE(t,d)	tdefs[t].vtotal += d[0] + d[1]
 #endif /* SUPPORT_64BITS */
 /* assume float is a 64 bit quantity */
 #define  VRF_MONEY(t,d)	tdefs[t].vtotal = *((long *)&d) + *((long *)(&d + 1))
@@ -610,8 +611,8 @@ int dbg_print(int dt, FILE *tgt, void *data, int len, int eol);
 #define  BBB_CMNT_SD   46         
 #define  BBB_OFFSET_SD 47         
 #ifdef SSB
-#define  P_CAT_SD  48
-#define  P_CITY_SD 49
+    #define  P_CAT_SD  48
+    #define  P_CITY_SD 49
 #endif
 
 #endif            /* DSS_H */
