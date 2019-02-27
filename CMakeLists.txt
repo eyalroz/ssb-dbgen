@@ -112,11 +112,21 @@ add_executable(qgen
 	src/varsub.c
 )
 
-# Link with the C math library (libm) if required
-find_library(HAVE_LIBM m)
-if (HAVE_LIBM)
-	target_link_libraries(dbgen m)
-	target_link_libraries(qgen m)
+# Link against the C math library (libm) if necessary;
+# See: https://stackoverflow.com/q/32816646/1593077
+CHECK_FUNCTION_EXISTS(log LOG_FUNCTION_EXISTS)
+if(NOT LOG_FUNCTION_EXISTS)
+  unset(LOG_FUNCTION_EXISTS CACHE)
+  list(APPEND CMAKE_REQUIRED_LIBRARIES m)
+  CHECK_FUNCTION_EXISTS(log LOG_FUNCTION_EXISTS)
+  if(LOG_FUNCTION_EXISTS)
+	message(STATUS "Need linking against the C math library")
+    target_link_libraries(dbgen m)
+    target_link_libraries(qgen m)
+  else()
+    message(FATAL_ERROR "Cannot determine how to make the C standard library math functions available.")
+  endif()
+else()
 endif()
 
 set_property(
