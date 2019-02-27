@@ -176,7 +176,7 @@ ez_sparse(long i, DSS_HUGE *ok, long seq)
 void
 hd_sparse(long i, DSS_HUGE *ok, long seq)
 	{
-	long low_mask, seq_mask;
+	DSS_HUGE low_mask, seq_mask;
 	static int init = 0;
 	static DSS_HUGE *base, *res;
 	
