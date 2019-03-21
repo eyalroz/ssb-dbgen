@@ -23,6 +23,7 @@ set(WORKLOAD SSB CACHE STRING "Choice of benchmark / query workload (\"WORKLOAD\
 set_property(CACHE WORKLOAD PROPERTY STRINGS TPCH SSB)
 
 set(EOL_HANDLING OFF CACHE BOOL "Skip separator after the last field in generated lines?")
+set(YMD_DATE OFF CACHE BOOL "Override date format values to yyyy-mm-dd?")
 
 check_type_size("long long"        SIZEOF_LONG_LONG)
 check_type_size("long"             SIZEOF_LONG)
@@ -86,6 +87,9 @@ set_property(
 
 if (EOL_HANDLING)
 	set_property( TARGET dbgen qgen APPEND PROPERTY COMPILE_DEFINITIONS EOL_HANDLING)
+endif()
+if (YMD_DATE)
+	set_property( TARGET dbgen qgen APPEND PROPERTY COMPILE_DEFINITIONS YMD_DATE)
 endif()
 
 set_property(TARGET dbgen qgen APPEND PROPERTY C_STANDARD 99)

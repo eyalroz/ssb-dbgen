@@ -7,6 +7,7 @@
  *   SEPARATOR         -- character used to separate fields in flat files
  *   STDLIB_HAS_GETOPT -- to prevent confilcts with gloabal getopt() 
  *   MDY_DATE          -- generate dates as MM-DD-YY
+ *   YMD_DATE          -- generate dates as YYYY-MM-DD
  *   WIN32             -- support for WindowsNT
  *   DSS_HUGE          -- 64 bit data type
  *   HUGE_FORMAT       -- printf string for 64 bit data type

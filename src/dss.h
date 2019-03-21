@@ -522,12 +522,21 @@ int dbg_print(int dt, FILE *tgt, void *data, int len, int eol);
 
 
 #ifdef SSB
+#ifdef YMD_DATE
+#define  PR_DATE(tgt, yr, mn, dy) { \
+	int yr_  = yr; \
+	int mn_  = mn; \
+	int dy_  = dy; \
+  snprintf(tgt, 2+1+2+1+4+1, "19%02d-%02d-%02d",yr_, mn_, dy_); \
+}
+#else
 #define  PR_DATE(tgt, yr, mn, dy) { \
 	int yr_  = yr; \
 	int mn_  = mn; \
 	int dy_  = dy; \
 	snprintf(tgt, 4+2+2+1, "19%02d%02d%02d", yr_, mn_, dy_); \
 }
+#endif
 #else
 #ifdef MDY_DATE
 #define  PR_DATE(tgt, yr, mn, dy) { \

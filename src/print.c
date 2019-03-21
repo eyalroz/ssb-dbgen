@@ -660,7 +660,13 @@ int pr_date(date_t *d, int mode){
 	d_fp = print_prep(DATE, 0);
 
     PR_STRT(d_fp);
+#ifdef YMD_DATE
+    char ymd_date[D_DATE_LEN];
+    PR_DATE(ymd_date, d->year-1900, d->monthnuminyear, d->daynuminmonth);
+    PR_STR(d_fp, ymd_date, D_DATE_LEN);
+#else
     PR_INT(d_fp, d->datekey);
+#endif
     PR_STR(d_fp, d->date,D_DATE_LEN);
     PR_STR(d_fp, d->dayofweek,D_DAYWEEK_LEN);
     PR_STR(d_fp, d->month,D_MONTH_LEN);
