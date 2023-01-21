@@ -168,4 +168,6 @@ elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC")
     set_property(TARGET dbgen qgen APPEND PROPERTY COMPILE_DEFINITIONS _CRT_NONSTDC_NO_DEPRECATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
-
+# This next copy is not necessary for the build, but does facilitate
+# running the built binaries from within the build directory
+configure_file(dists.dss dists.dss COPYONLY)
