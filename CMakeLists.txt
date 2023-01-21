@@ -176,4 +176,4 @@ elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC")
     set_property(TARGET dbgen qgen APPEND PROPERTY COMPILE_DEFINITIONS _CRT_NONSTDC_NO_DEPRECATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
-
+configure_file(dists.dss dists.dss COPYONLY)
