@@ -29,14 +29,20 @@ dbgen
 # -------------------------------------
 gmon.out
 
-# IDE files (Eclipse, IntelliJ IDEA)
+# IDE files (Eclipse, IntelliJ IDEA, vscode)
 # -------------------------------------
 .cproject
 .project
 .idea/
+.vscode/
 
 # Patch-related
 # -------------------------------------
 *.diff
 *.rej
 *.orig
+
+# Build files
+# -------------------------------------
+build/
+cmake-build*

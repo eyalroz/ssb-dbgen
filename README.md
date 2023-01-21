@@ -32,9 +32,9 @@ For a recent discussion of the benchmark, you may wish to also read [A Review of
 
 The build is automated using [CMake](https://cmake.org/) now. You can run it in several modes:
 
-* Default: `$ cmake . && cmake --build .`
-* Passing options manually: `$ cmake [OPTIONS] . && cmake --build .`
-* Interactive: `$ cmake . && ccmake . && cmake --build .`
++ Default: `$ cmake -S . -B ./build && cmake --build ./build`
+* Passing options manually: `$ cmake -S . -B ./build [OPTIONS] && cmake --build ./build`
+* Interactive: `$ cmake -S . -B ./build && ccmake -S . -B ./build && cmake --build ./build`
 
 Of course, you should have C language compiler (C99/C2011 support is not necessary), linker, and corresponding make-tool preinstalled in your system. CMake will detect them automatically.
 
@@ -57,7 +57,7 @@ Building process was tested using [Travis CI](https://travis-ci.org/) with [gcc]
 
 ## <a name="using">Using the utility to generate data</a>
 
-The `dbgen` utility should be run from within the source folder (it can be run from elsewhere but you would need to specify the location of the `dists.dss` file). A typical invocation:
+The `dbgen` utility expects `dists.dss` in its working directory. If necessary, the location of the `dists.dss` file can be specified with the `-b` command line argument. CMake is configured to copy the `dists.dss` to the build directory automatically. A typical invocation:
 
     $ ./dbgen -v -s 10
     
