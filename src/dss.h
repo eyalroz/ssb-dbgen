@@ -459,7 +459,7 @@ extern tdef tdefs[];
 #define HUGE_ADD(op1, op2, dst)	*dst = *op1 + op2	
 #define HUGE_SUB(op1, op2, dst)	*dst = *op1 - op2	
 #define HUGE_MOD(op1, op2)		*op1 % op2	
-#define HUGE_CMP(op1, op2)		(*op1 == *op2)?0:(*op1 < *op2)-1:1
+#define HUGE_CMP(op1, op2)		(*op1 == *op2) ? 0 : ((*op1 < *op2) ? -1 : 1)
 #else
 #define LONG2HUGE(src, dst)		{*dst = src; *(dst + 1) = 0;}
 #define HUGE2LONG(src, dst)		{ dst=0 ; \
@@ -477,8 +477,7 @@ extern tdef tdefs[];
 					bcd2_sub(d, (d + 1), op2); \
 					}
 #define HUGE_MOD(op1, op2)		bcd2_mod(op1, (op1 + 1), op2)
-#define HUGE_CMP(op1, op2)		(bcd2_cmp(op1, (op1 + 1), op2) == 0)?0:\
-					    ((bcd2_cmp(op1, (op1 + 1), op2) < 0)?-1:1)
+#define HUGE_CMP(op1, op2)		(bcd2_cmp(op1, (op1 + 1), op2) == 0)? 0: ((bcd2_cmp(op1, (op1 + 1), op2) < 0)? -1 : 1)
 #endif /* SUPPORT_64BITS */
 
 /******** environmental variables and defaults ***************/
