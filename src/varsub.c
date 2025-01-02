@@ -11,10 +11,6 @@
 #error "No place to get the malloc() definition from."
 #endif /* defined(HAVE_MALLOC_IN_STDLIB) */
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include "dss.h"
 #include "tpcd.h"
 #ifdef ADHOC

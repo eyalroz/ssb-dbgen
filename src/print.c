@@ -4,20 +4,10 @@
 #include "config.h"
 #include <stdio.h>
 #include <math.h>
-#include <time.h>
 #include <string.h>
-
-#ifdef HAVE_SYS_TYPES_H // originally #ifndef VMS
-#include <sys/types.h>
-#endif /* HAVE_SYS_TYPES_H */
-
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif /* HAVE_UNISTD_H */
 
 #include "dss.h"
 #include "dsstypes.h"
-
 
 /*
  * Function Prototypes

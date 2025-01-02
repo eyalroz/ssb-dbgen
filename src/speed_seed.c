@@ -1,6 +1,5 @@
 /* @(#)speed_seed.c	2.1.8.2 */
 #include <stdio.h>
-#include <stdlib.h>
 #include "dss.h"
 #include "life_noise.h"
 

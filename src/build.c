@@ -15,10 +15,6 @@
 #include <sys/types.h>
 #endif /* HAVE_SYS_TYPES_H */
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif /* HAVE_UNISTD_H */
-
 #include "dss.h"
 #include "dsstypes.h"
 #include "bcd2.h"

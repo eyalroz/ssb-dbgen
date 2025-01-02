@@ -30,11 +30,9 @@
 
 #include "dss.h"
 #include <stdio.h>
-#include <time.h>
 #include <errno.h>
 #include <string.h>
 #include <ctype.h>
-#include <math.h>
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
@@ -52,10 +50,6 @@
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
-
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif /* HAVE_SYS_TYPES_H */
 
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>

@@ -12,16 +12,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <limits.h>
 #include <math.h>
 #include <ctype.h>
 #include <signal.h>
 #include <string.h>
 #include <errno.h>
-
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif /* HAVE_SYS_TYPES_H */
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
@@ -32,10 +27,6 @@
 #elif (!defined(HAVE_GETOPT))
 int     getopt(int arg_cnt, char **arg_vect, char *options);
 #endif /* (!defined(STDLIB_HAS_GETOPT) && defined(HAVE_GETOPT_H)) */
-
-#ifdef HAVE_SYS_TYPES_H
-	#include <sys/types.h>
-#endif
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
