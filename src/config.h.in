@@ -73,7 +73,7 @@
 
 #cmakedefine01 CSV_OUTPUT_FORMAT
 #if CSV_OUTPUT_FORMAT 
-#define SEPARATOR ',' /* field spearator for generated flat files */
+#define SEPARATOR ',' /* field separator for generated flat files */
 #define DOUBLE_QUOTE_OUTPUT_STRINGS /* In the SSB data set, we may have commas in strings, so let's enclose (all of) them in quotes. */
 #ifndef EOL_HANDLING
 #define EOL_HANDLING /* Note: This should already be defined by CMake; only "emphasizing" here */

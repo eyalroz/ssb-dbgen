@@ -1,5 +1,5 @@
 /* @(#)driver.c	2.1.8.4 */
-/* main driver for dss banchmark */
+/* main driver for dss benchmark */
 
 #define DECLARER				/* EXTERN references get defined here */
 #define NO_FUNC (int (*) ()) NULL	/* to clean up tdefs */
