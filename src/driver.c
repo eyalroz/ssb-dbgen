@@ -70,7 +70,6 @@ int     getopt(int arg_cnt, char **arg_vect, char *options);
 
 #include "dss.h"
 #include "dsstypes.h"
-#include "bcd2.h"
 #include "life_noise.h"
 
 /*
