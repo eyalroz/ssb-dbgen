@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0...3.31)
 cmake_policy(SET CMP0054 NEW) # Don't try to interpret "FOO" as a variable
-include(CheckIncludeFiles)
+include(CheckIncludeFile)
 include(CheckTypeSize)
 include(CheckSymbolExists)
 include(CheckFunctionExists)
