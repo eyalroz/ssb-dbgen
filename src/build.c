@@ -134,24 +134,24 @@ mk_cust(long n_cust, customer_t *c)
 	* generate the numbered order and its associated lineitems
 */
 void
-mk_sparse (long i, DSS_HUGE *ok, long seq)
+mk_sparse (long i, DSS_HUGE ok, long seq)
 	{
 		ez_sparse(i, ok, seq);
 	return;
 	}
 
 void
-ez_sparse(long i, DSS_HUGE *ok, long seq)
+ez_sparse(long i, DSS_HUGE ok, long seq)
 	{
 	long low_bits;
 	
 	LONG2HUGE(i, ok);
 	low_bits = (long)(i & ((1 << SPARSE_KEEP) - 1));
-	*ok = *ok >> SPARSE_KEEP;
-	*ok = *ok << SPARSE_BITS;
-	*ok += seq;
-	*ok = *ok << SPARSE_KEEP;
-	*ok += low_bits;
+	ok = ok >> SPARSE_KEEP;
+	ok = ok << SPARSE_BITS;
+	ok += seq;
+	ok = ok << SPARSE_KEEP;
+	ok += low_bits;
 	
 	
 	return;
@@ -199,7 +199,7 @@ mk_order(long index, order_t *o, long upd_num)
 	for (lcnt = 0; lcnt < o->lines; lcnt++)
 	    {
 		
-		HUGE_SET(o->okey, o->lineorders[lcnt].okey);
+		o->okey = o->lineorders[lcnt].okey;
 		o->lineorders[lcnt].linenumber = lcnt + 1;
 		o->lineorders[lcnt].custkey = o->custkey;
 		RANDOM(o->lineorders[lcnt].partkey, L_PKEY_MIN, L_PKEY_MAX, L_PKEY_SD);

@@ -413,7 +413,6 @@ gen_tbl (int tnum, DSS_HUGE start, DSS_HUGE count, long upd_num)
 	code_t code;
 #endif
 	static int completed = 0;
-	static int init = 0;
 	DSS_HUGE i;
 
 	int rows_per_segment=0;
@@ -425,18 +424,6 @@ gen_tbl (int tnum, DSS_HUGE start, DSS_HUGE count, long upd_num)
 		rows_per_segment = count / insert_segments;
 		residual_rows = count - (rows_per_segment * insert_segments);
 		}
-
-	if (init == 0)
-	{
-		INIT_HUGE(o.okey);
-		for (i=0; i < O_LCNT_MAX; i++)
-#ifdef SSB
-			INIT_HUGE(o.lineorders[i].okey);	
-#else
-			INIT_HUGE(o.l[i].okey);
-#endif
-		init = 1;
-	}
 
 	for (i = start; count; count--, i++)
 	{
