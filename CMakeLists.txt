@@ -4,7 +4,8 @@ include(CheckIncludeFile)
 include(CheckSymbolExists)
 include(CheckFunctionExists)
 
-project(ssb-dbgen # SSB benchmark data (and query) generator utilities
+project(ssb-dbgen
+	DESCRIPTION "SSB benchmark data (and query) generator utilities"
 	LANGUAGES C)
 
 if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
