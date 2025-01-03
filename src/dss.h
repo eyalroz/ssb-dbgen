@@ -450,8 +450,7 @@ extern tdef tdefs[];
 			MALLOC_CHECK(v); \
 			}
 #define FREE_HUGE(v)	free(v)
-#ifdef SUPPORT_64BITS
-#define LONG2HUGE(src, dst)		*dst = (DSS_HUGE)src	
+#define LONG2HUGE(src, dst)		*dst = (DSS_HUGE)src
 #define HUGE2LONG(src, dst)		*dst = (long)src
 #define HUGE_SET(src, dst)		*dst = *src	
 #define HUGE_MUL(op1, op2)		*op1 *= op2	
@@ -460,25 +459,6 @@ extern tdef tdefs[];
 #define HUGE_SUB(op1, op2, dst)	*dst = *op1 - op2	
 #define HUGE_MOD(op1, op2)		*op1 % op2	
 #define HUGE_CMP(op1, op2)		(*op1 == *op2) ? 0 : ((*op1 < *op2) ? -1 : 1)
-#else
-#define LONG2HUGE(src, dst)		{*dst = src; *(dst + 1) = 0;}
-#define HUGE2LONG(src, dst)		{ dst=0 ; \
-					bcd2_bin(dst, (src + 1)); \
-					bcd2_bin(dst, src); }
-#define HUGE_SET(src, dst)		{ *dst = *src ; *(dst + 1) = *(src + 1); }
-#define HUGE_MUL(op1,op2)		bcd2_mul(op1, (op1 + 1), op2)
-#define HUGE_DIV(op1,op2)		bcd2_div(op1, (op1 + 1), op2)
-#define HUGE_ADD(op1,op2,d)		{ \
-					HUGE_SET(op1, d); \
-					bcd2_add(d, (d + 1), op2); \
-					}
-#define HUGE_SUB(op1,op2,d)		{ \
-					HUGE_SET(op1, d); \
-					bcd2_sub(d, (d + 1), op2); \
-					}
-#define HUGE_MOD(op1, op2)		bcd2_mod(op1, (op1 + 1), op2)
-#define HUGE_CMP(op1, op2)		(bcd2_cmp(op1, (op1 + 1), op2) == 0)? 0: ((bcd2_cmp(op1, (op1 + 1), op2) < 0)? -1 : 1)
-#endif /* SUPPORT_64BITS */
 
 /******** environmental variables and defaults ***************/
 #define  DIST_TAG  "DSS_DIST"		/* environment var to override ... */
@@ -550,14 +530,7 @@ int dbg_print(int dt, FILE *tgt, void *data, int len, int eol);
  */
 #define  VRF_STR(t, d) {char *xx = d; while (*xx) tdefs[t].vtotal += *xx++;}
 #define  VRF_INT(t,d)  tdefs[t].vtotal += d
-/* The following conditional definition is not necessary by this point, since
- * d is already a DSS_HUGE in the contexts in which this macro is expanded.
- */
-// #ifdef SUPPORT_64BITS
-// #define  VRF_HUGE(t,d)	tdefs[t].vtotal = *((DSS_HUGE *)&d) + *((DSS_HUGE *)(&d + 1))
-// #else
-#define VRF_HUGE(t,d)	tdefs[t].vtotal += (unsigned long) (d[0] + d[1])
-// #endif /* SUPPORT_64BITS */
+#define  VRF_HUGE(t,d)	tdefs[t].vtotal += *d
 /* assume float is a 64 bit quantity */
 #define  VRF_MONEY(t,d)	tdefs[t].vtotal = *((long *)&d) + *((long *)(&d + 1))
 #define  VRF_CHR(t,d)	tdefs[t].vtotal += d

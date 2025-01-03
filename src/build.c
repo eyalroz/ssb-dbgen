@@ -136,21 +136,10 @@ mk_cust(long n_cust, customer_t *c)
 void
 mk_sparse (long i, DSS_HUGE *ok, long seq)
 	{
-#ifndef SUPPORT_64BITS
-	if (scale < MAX_32B_SCALE)
-#endif
 		ez_sparse(i, ok, seq);
-#ifndef SUPPORT_64BITS
-	else
-		hd_sparse(i, ok, seq);
-#endif
 	return;
 	}
 
-	/*
-	* the "simple" version of mk_sparse, used on systems with 64b support
-	* and on all systems at SF <= 300G where 32b support is sufficient
-*/
 void
 ez_sparse(long i, DSS_HUGE *ok, long seq)
 	{
@@ -167,38 +156,6 @@ ez_sparse(long i, DSS_HUGE *ok, long seq)
 	
 	return;
 	}
-
-#ifndef SUPPORT_64BITS
-void
-hd_sparse(long i, DSS_HUGE *ok, long seq)
-	{
-	DSS_HUGE low_mask, seq_mask;
-	static int init = 0;
-	static DSS_HUGE *base, *res;
-	
-	if (init == 0)
-		{
-		INIT_HUGE(base);
-		INIT_HUGE(res);
-		init = 1;
-		}
-	
-	low_mask = (1 << SPARSE_KEEP) - 1;
-	seq_mask = (1 << SPARSE_BITS) - 1;
-	bin_bcd2(i, base, base + 1);
-	HUGE_SET (base, res);
-	HUGE_DIV (res, 1 << SPARSE_KEEP);
-	HUGE_MUL (res, 1 << SPARSE_BITS);
-	HUGE_ADD (res, seq, res);
-	HUGE_MUL (res, 1 << SPARSE_KEEP);
-	HUGE_ADD (res, *base & low_mask, res);
-	bcd2_bin (&low_mask, *res);
-	bcd2_bin (&seq_mask, *(res + 1));
-	*ok = low_mask;
-	*(ok + 1) = seq_mask;
-	return;
-	}
-#endif
 
 #ifdef SSB
 long
