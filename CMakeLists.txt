@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.0...3.31)
 cmake_policy(SET CMP0054 NEW) # Don't try to interpret "FOO" as a variable
 include(CheckIncludeFile)
-include(CheckTypeSize)
 include(CheckSymbolExists)
 include(CheckFunctionExists)
 
@@ -27,11 +26,6 @@ set(YMD_DASH_DATE OFF CACHE BOOL "Generate date values in YYYY-MM-DD format (wit
 if (CSV_OUTPUT_FORMAT AND NOT EOL_HANDLING)
 	message(WARNING "When CSV is used for the output format, EOL_HANDLING is ignored and a separator is _never_ printed after the last field on the line (the equivalent of EOL_HANDLING being ON).")
 endif()
-
-check_type_size("long long" SIZEOF_LONG_LONG)
-check_type_size("long" SIZEOF_LONG)
-check_type_size("int" SIZEOF_INT)
-check_type_size("short" SIZEOF_SHORT)
 
 # Header checks...
 

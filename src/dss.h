@@ -446,7 +446,7 @@ extern tdef tdefs[];
  */
 #define  MAX_32B_SCALE   1000.0
 #define INIT_HUGE(v)	{ \
-			v = (DSS_HUGE *)malloc(sizeof(DSS_HUGE) * HUGE_COUNT); \
+			v = (DSS_HUGE *)malloc(sizeof(DSS_HUGE)); \
 			MALLOC_CHECK(v); \
 			}
 #define FREE_HUGE(v)	free(v)

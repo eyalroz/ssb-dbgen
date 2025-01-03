@@ -15,6 +15,13 @@
  *   TDAT       -- use Teradata dialect in QGEN
  */
 
+#include <inttypes.h>
+
+#define DSS_HUGE                int_least64_t
+#define HUGE_FORMAT_SPECIFIER   PRIdLEAST64
+#define HUGE_FORMAT             "%" HUGE_FORMAT_SPECIFIER
+#define HUGE_DATE_FORMAT  "%02" HUGE_FORMAT_SPECIFIER
+
 /* POSIX platform headers */
 #cmakedefine HAVE_UNISTD_H
 #cmakedefine HAVE_FCNTL_H
@@ -22,7 +29,6 @@
 #cmakedefine HAVE_SYS_TYPES_H
 #cmakedefine HAVE_SYS_STAT_H
 #cmakedefine HAVE_STRINGS_H
-#cmakedefine HAVE_INTTYPES_H
 
 /* Windows platform headers */
 #cmakedefine HAVE_PROCESS_H
@@ -37,37 +43,6 @@
 #define RNG_TEST
 #define _FILE_OFFSET_BITS 64
 
-/* SIZEOF_LONG check */
-#if (@SIZEOF_LONG@ == 8)
-#define SIGNED_64_BIT_C_TYPE long
-#define SIGNED_64_BIT_PRINTF_MODIFIER "l"
-#else
-/* SIZEOF_LONG_LONG check */
-#if (@SIZEOF_LONG_LONG@ == 8)
-#define SIGNED_64_BIT_C_TYPE long long
-#define SIGNED_64_BIT_PRINTF_MODIFIER "ll"
-#else
-/* SIZEOF_SHORT check */
-#if (@SIZEOF_SHORT@ == 8)
-#define SIGNED_64_BIT_C_TYPE short
-#define SIGNED_64_BIT_PRINTF_MODIFIER "s"
-#else
-/* SIZEOF_INT check */
-#if (@SIZEOF_INT@ == 8)
-#define SIGNED_64_BIT_C_TYPE int
-#define SIGNED_64_BIT_PRINTF_MODIFIER
-#else
-#error "No standard C integer type has size 8"
-#endif
-#endif
-#endif
-#endif
-
-#define DSS_HUGE          SIGNED_64_BIT_C_TYPE
-#define HUGE_FORMAT_SPECIFIER  SIGNED_64_BIT_PRINTF_MODIFIER "d"
-#define HUGE_FORMAT       "%" HUGE_FORMAT_SPECIFIER
-#define HUGE_COUNT        1
-#define HUGE_DATE_FORMAT  "%02" HUGE_FORMAT_SPECIFIER
 
 #cmakedefine01 CSV_OUTPUT_FORMAT
 #if CSV_OUTPUT_FORMAT 
