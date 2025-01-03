@@ -96,7 +96,6 @@ configure_file(src/config.h.in src/config.h @ONLY)
 include_directories("${CMAKE_CURRENT_BINARY_DIR}/src")
 
 add_executable(dbgen
-	src/bcd2.c
 	src/bm_utils.c
 	src/build.c
 	src/driver.c
@@ -109,7 +108,6 @@ add_executable(dbgen
 )
 
 add_executable(qgen
-	src/bcd2.c
 	src/bm_utils.c
 	src/build.c
 	src/permute.c

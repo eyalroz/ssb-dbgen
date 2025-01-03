@@ -17,7 +17,6 @@
 
 #include "dss.h"
 #include "dsstypes.h"
-#include "bcd2.h"
 #ifdef ADHOC
 #include "adhoc.h"
 extern adhoc_t adhocs[];
