@@ -145,7 +145,7 @@ ez_sparse(long i, DSS_HUGE *ok, long seq)
 	{
 	long low_bits;
 	
-	LONG2HUGE(i, ok);
+	*ok = (DSS_HUGE) i;
 	low_bits = (long)(i & ((1 << SPARSE_KEEP) - 1));
 	*ok = *ok >> SPARSE_KEEP;
 	*ok = *ok << SPARSE_BITS;
@@ -179,7 +179,7 @@ mk_order(long index, order_t *o, long upd_num)
 	RANDOM(tmp_date, O_ODATE_MIN, O_ODATE_MAX, O_ODATE_SD);
 	strcpy(o->odate, asc_date[tmp_date - STARTDATE]);
 
-	mk_sparse (index, o->okey,
+	mk_sparse (index, &o->okey,
 		(upd_num == 0) ? 0 : 1 + upd_num / (10000 / refresh));
 	RANDOM(o->custkey, O_CKEY_MIN, O_CKEY_MAX, O_CKEY_SD);
 	while (o->custkey % CUST_MORTALITY == 0)
@@ -199,7 +199,7 @@ mk_order(long index, order_t *o, long upd_num)
 	for (lcnt = 0; lcnt < o->lines; lcnt++)
 	    {
 		
-		HUGE_SET(o->okey, o->lineorders[lcnt].okey);
+		o->lineorders[lcnt].okey = o->okey;
 		o->lineorders[lcnt].linenumber = lcnt + 1;
 		o->lineorders[lcnt].custkey = o->custkey;
 		RANDOM(o->lineorders[lcnt].partkey, L_PKEY_MIN, L_PKEY_MAX, L_PKEY_SD);
@@ -292,7 +292,7 @@ mk_order(long index, order_t *o, long upd_num)
 	RANDOM(o->lines, O_LCNT_MIN, O_LCNT_MAX, O_LCNT_SD);
     for (lcnt = 0; lcnt < o->lines; lcnt++)
 		{
-        HUGE_SET(o->okey, o->l[lcnt].okey);
+        o->l[lcnt].okey = o->okey;
         o->l[lcnt].lcnt = lcnt + 1;
 	RANDOM(o->l[lcnt].quantity, L_QTY_MIN, L_QTY_MAX, L_QTY_SD);
 	RANDOM(o->l[lcnt].discount, L_DCNT_MIN, L_DCNT_MAX, L_DCNT_SD);

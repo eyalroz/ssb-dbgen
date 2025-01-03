@@ -50,7 +50,7 @@ int ld_cust    PROTO((customer_t * c, int mode));
 
 typedef struct
 {
-    DSS_HUGE	    *okey;  /*for clustering line items*/
+    DSS_HUGE	    okey;  /*for clustering line items*/
     int             linenumber; /*integer, constrain to max of 7*/
     long            custkey;
     long            partkey;
@@ -94,7 +94,7 @@ typedef struct
 #ifdef SSB
 typedef struct
 {
-    DSS_HUGE	    *okey;
+    DSS_HUGE	      okey;
     long            custkey;
     int             totalprice;
     char            odate[DATE_LEN];

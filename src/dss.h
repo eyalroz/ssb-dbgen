@@ -445,12 +445,7 @@ extern tdef tdefs[];
  * beyond this point we need to allow for BCD calculations
  */
 #define  MAX_32B_SCALE   1000.0
-#define INIT_HUGE(v)	{ \
-			v = (DSS_HUGE *)malloc(sizeof(DSS_HUGE)); \
-			MALLOC_CHECK(v); \
-			}
-#define FREE_HUGE(v)	free(v)
-#define LONG2HUGE(src, dst)		*dst = (DSS_HUGE)src
+#define LONG2HUGE(src, dst)		dst = (DSS_HUGE)src
 #define HUGE2LONG(src, dst)		*dst = (long)src
 #define HUGE_SET(src, dst)		*dst = *src	
 #define HUGE_MUL(op1, op2)		*op1 *= op2	
@@ -492,7 +487,7 @@ int dbg_print(int dt, FILE *tgt, void *data, int len, int eol);
 #define PR_VSTR(f, str, len) 	dbg_print(DT_VSTR, f, (void *)str, len, 1)
 #define PR_VSTR_LAST(f, str, len) 	dbg_print(DT_VSTR, f, (void *)str, len, 0)
 #define PR_INT(f, val) 			{ long tmp = val; dbg_print(DT_INT,   f, &tmp, 0, 1);  }
-#define PR_HUGE(f, val) 		dbg_print(DT_HUGE, f, (void *)val, 0, 1)
+#define PR_HUGE(f, val) 		dbg_print(DT_HUGE, f, &val, 0, 1)
 #define PR_KEY(f, val) 			{ long tmp = val; dbg_print(DT_KEY,   f, &tmp, 0, -1); }
 #define PR_MONEY(f, val) 		{ long tmp = val; dbg_print(DT_MONEY, f, &tmp, 0, 1);  }
 #define PR_CHR(f, val)	 		{ char tmp = val; dbg_print(DT_CHR,   f, &tmp, 0, 1);  }
@@ -530,7 +525,7 @@ int dbg_print(int dt, FILE *tgt, void *data, int len, int eol);
  */
 #define  VRF_STR(t, d) {char *xx = d; while (*xx) tdefs[t].vtotal += *xx++;}
 #define  VRF_INT(t,d)  tdefs[t].vtotal += d
-#define  VRF_HUGE(t,d)	tdefs[t].vtotal += *d
+#define  VRF_HUGE(t,d)	tdefs[t].vtotal += d
 /* assume float is a 64 bit quantity */
 #define  VRF_MONEY(t,d)	tdefs[t].vtotal = *((long *)&d) + *((long *)(&d + 1))
 #define  VRF_CHR(t,d)	tdefs[t].vtotal += d
