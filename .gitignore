@@ -84,3 +84,7 @@ log
 gmon.out
 .DS_Store
 
+# Target files
+dbgen
+qgen
+config.h
