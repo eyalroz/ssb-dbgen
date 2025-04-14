@@ -126,7 +126,7 @@ typedef struct
 long	mk_order	PROTO((long index, order_t * o, long upd_num));
 int		pr_order	PROTO((order_t * o, int mode));
 int		ld_order	PROTO((order_t * o, int mode));
-void	ez_sparse	PROTO((long index, DSS_HUGE *ok, long seq));
+DSS_HUGE ez_sparse	PROTO((long index, long seq));
 
 #ifdef SSB
 /*SSB removes the part supplier table*/       

@@ -132,28 +132,25 @@ mk_cust(long n_cust, customer_t *c)
 	/*
 	* generate the numbered order and its associated lineitems
 */
-void
-mk_sparse (long i, DSS_HUGE *ok, long seq)
+DSS_HUGE
+mk_sparse (long i, long seq)
 	{
-		ez_sparse(i, ok, seq);
-	return;
+		return ez_sparse(i, seq);
 	}
 
-void
-ez_sparse(long i, DSS_HUGE *ok, long seq)
+DSS_HUGE
+ez_sparse(long i, long seq)
 	{
+	DSS_HUGE result = i;
 	long low_bits;
-	
-	*ok = (DSS_HUGE) i;
+
 	low_bits = (long)(i & ((1 << SPARSE_KEEP) - 1));
-	*ok = *ok >> SPARSE_KEEP;
-	*ok = *ok << SPARSE_BITS;
-	*ok += seq;
-	*ok = *ok << SPARSE_KEEP;
-	*ok += low_bits;
-	
-	
-	return;
+	result >>= SPARSE_KEEP;
+	result <<= SPARSE_BITS;
+	result += seq;
+	result <<= SPARSE_KEEP;
+	result += low_bits;
+	return result;
 	}
 
 #ifdef SSB
@@ -178,8 +175,7 @@ mk_order(long index, order_t *o, long upd_num)
 	RANDOM(tmp_date, O_ODATE_MIN, O_ODATE_MAX, O_ODATE_SD);
 	strcpy(o->odate, asc_date[tmp_date - STARTDATE]);
 
-	mk_sparse (index, &o->okey,
-		(upd_num == 0) ? 0 : 1 + upd_num / (10000 / refresh));
+	o->okey = mk_sparse (index, 		(upd_num == 0) ? 0 : 1 + upd_num / (10000 / refresh));
 	RANDOM(o->custkey, O_CKEY_MIN, O_CKEY_MAX, O_CKEY_SD);
 	while (o->custkey % CUST_MORTALITY == 0)
 	    {

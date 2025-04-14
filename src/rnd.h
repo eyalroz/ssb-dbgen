@@ -1,7 +1,7 @@
 /*
  * Sccsid:  @(#)rnd.h	2.1.8.1
  * 
- * rnd.h -- header file for use withthe portable random number generator
+ * rnd.h -- header file for use with the portable random number generator
  * provided by Frank Stephens of Unisys
  */
 
