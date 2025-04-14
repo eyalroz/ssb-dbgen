@@ -1,5 +1,14 @@
 syntax: glob
 
+# Files which "ask" to be ignored
+# -------------------------------------
+\#\#*
+*.swp
+*.bkp
+*~
+.*
+unused/
+
 # CMake-generated
 # -------------------------------------
 cmake_install.cmake
@@ -14,19 +23,22 @@ build.ninja
 *.o
 *.a
 *.so
-bin/*
-lib/*
-build/*
+bin/
+lib/
+build/
 
 # CMake & CTest-generated files
 # -------------------------------------
 CMakeCache.txt
-CMakeFiles/*
+CMakeFiles/
 cmake_install.cmake
-CMakeScripts/*
-CMakeTmp/*
+CMakeScripts/
+CMakeTmp/
 Makefile
+build.ninja
 CTestTestfile.cmake
+Testing/
+bazel-*
 
 # Core dumps
 # -------------------------------------
@@ -38,27 +50,27 @@ core-*
 # -------------------------------------
 *.tbl
 
-
 # Temporary, cache, swap files
 # -------------------------------------
 \#\#* 
 *.swp
 *.bkp
 
-# Files which "ask" to be hidden
+# IDE files (Eclipse, IntelliJ-IDEA-based, VS Code)
 # -------------------------------------
-*~
-.*
-unused/
 
-# IDE files (Eclipse, CLion, VS Code,)
-# -------------------------------------
-.cproject
+# Eclise 
 .project
-.idea/
+.cproject
 .settings
+
+# CLion (including its build artifacts folders)
+.idea/
 cmake-build-*/
-.vscode
+
+# VS Code
+.vscode/
+
 
 # Patch-related
 # -------------------------------------
