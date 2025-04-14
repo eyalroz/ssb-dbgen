@@ -32,9 +32,11 @@ For a recent discussion of the benchmark, you may wish to also read [A Review of
 
 The build is automated using [CMake](https://cmake.org/) now. You can run it in several modes:
 
-* Default: `$ cmake . && cmake --build .`
-* Passing options manually: `$ cmake [OPTIONS] . && cmake --build .`
-* Interactive: `$ cmake . && ccmake . && cmake --build .`
++ Default: `$ cmake -B ./build && cmake --build ./build`
+* Passing options manually: `$ cmake -B ./build [OPTIONS] && cmake --build ./build`
+* Interactive: `$ ccmake -B ./build && cmake --build ./build`
+
+(these examples assume you're running CMake inside the project root directory; otherwise, use `-S` and `-B` to specify the source and build directory paths)
 
 Of course, you should have C language compiler (C99/C2011 support is not necessary), linker, and corresponding make-tool preinstalled in your system. CMake will detect them automatically.
 
@@ -57,9 +59,9 @@ Building process was tested using [Travis CI](https://travis-ci.org/) with [gcc]
 
 ## <a name="using">Using the utility to generate data</a>
 
-The `dbgen` utility should be run from within the source folder (it can be run from elsewhere but you would need to specify the location of the `dists.dss` file). A typical invocation:
+A typical invocation:
 
-    $ ./dbgen -v -s 10
+    $ dbgen -b /path/to/dists.dss -v -s 10
     
 will create all tables in the current directory, with a scale factor of 10. This will have, for example, 300,000 lines in `customer.tbl`, beginning with something like:
 ```
@@ -72,7 +74,11 @@ the fields are separated by a pipe character (`|`), and if `EOL_HANDLING`was set
 
 After generating `.tbl` files for the CUSTOMER, PART, SUPPLIER, DATE, and LINEORDER tables, you should now either load them directly into your DBMS or apply some textual processing to them before loading.
 
-**Note:** On Unix-like systems, it is also possible to write the generated data into a FIFO filesystem node, reading from the other side with a compression utility, so as to only write compressed data to disk. This may be useful if disk space is limited and you are using a particularly high scale factor.
+**Notes:** 
+
+* On Unix-like systems, it is also possible to write the generated data into a FIFO filesystem node, reading from the other side with a compression utility, so as to only write compressed data to disk. This may be useful if disk space is limited and you are using a particularly high scale factor.
+* If you do not specify the location of `dists.dss` with `-b`, the `dbgen` utility will try locating it in the current working directory.
+
 
 <br>
 
