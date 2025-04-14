@@ -4,20 +4,10 @@
 #include "config.h"
 #include <stdio.h>
 #include <math.h>
-#include <time.h>
 #include <string.h>
-
-#ifdef HAVE_SYS_TYPES_H // originally #ifndef VMS
-#include <sys/types.h>
-#endif /* HAVE_SYS_TYPES_H */
-
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif /* HAVE_UNISTD_H */
 
 #include "dss.h"
 #include "dsstypes.h"
-
 
 /*
  * Function Prototypes
@@ -105,19 +95,7 @@ dbg_print(int format, FILE *target, void *data, int len, int sep)
 			fprintf(target, "%ld", *(long *)data);
 		break;
 	case DT_HUGE:
-#ifndef SUPPORT_64BITS
-		/* Note: Next block seems to assume little-endian memory order */
-        if (*((long *)data + 1) == 0) \
-           if (columnar) fprintf(target, "%12ld", *(long *)data);
-           else fprintf(target, "%ld", *(long *)data);
-        else
-           if (columnar) fprintf(target, "%5ld%07ld", 
-				*((long *)data + 1), *(long *)data);
-           else fprintf(target,"%ld%07ld", 
-				*((long *)data + 1), *(long *)data);
-#else
 		fprintf(target, HUGE_FORMAT, *(DSS_HUGE *)data);
-#endif /* SUPPORT_64BITS */
 		break;
 	case DT_KEY:
 		fprintf(target, "%ld", *(long *)data);

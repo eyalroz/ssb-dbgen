@@ -50,7 +50,7 @@ int ld_cust    PROTO((customer_t * c, int mode));
 
 typedef struct
 {
-    DSS_HUGE	    *okey;  /*for clustering line items*/
+    DSS_HUGE	    okey;  /*for clustering line items*/
     int             linenumber; /*integer, constrain to max of 7*/
     long            custkey;
     long            partkey;
@@ -94,7 +94,7 @@ typedef struct
 #ifdef SSB
 typedef struct
 {
-    DSS_HUGE	    *okey;
+    DSS_HUGE	      okey;
     long            custkey;
     int             totalprice;
     char            odate[DATE_LEN];
@@ -127,9 +127,6 @@ long	mk_order	PROTO((long index, order_t * o, long upd_num));
 int		pr_order	PROTO((order_t * o, int mode));
 int		ld_order	PROTO((order_t * o, int mode));
 void	ez_sparse	PROTO((long index, DSS_HUGE *ok, long seq));
-#ifndef SUPPORT_64BITS
-void	hd_sparse	PROTO((long index, DSS_HUGE *ok, long seq));
-#endif
 
 #ifdef SSB
 /*SSB removes the part supplier table*/       

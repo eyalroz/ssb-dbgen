@@ -1,3 +1,4 @@
+syntax: glob
 
 # CMake-generated
 # -------------------------------------
@@ -6,35 +7,58 @@ CMakeFiles/
 CMakeCache.txt
 Makefile
 makefile
-config.h
+build.ninja
 
 # Build artifacts
 # -------------------------------------
 *.o
-qgen
-dbgen
+*.a
+*.so
+bin/*
+lib/*
+build/*
+
+# CMake & CTest-generated files
+# -------------------------------------
+CMakeCache.txt
+CMakeFiles/*
+cmake_install.cmake
+CMakeScripts/*
+CMakeTmp/*
+Makefile
+CTestTestfile.cmake
+
+# Core dumps
+# -------------------------------------
+core
+core.*
+core-*
 
 # Generated tables
 # -------------------------------------
 *.tbl
 
-# Temporary files of common editors
+
+# Temporary, cache, swap files
 # -------------------------------------
-*.bkp
+\#\#* 
 *.swp
-*~
-\#\#*
+*.bkp
 
-# Profiler output
+# Files which "ask" to be hidden
 # -------------------------------------
-gmon.out
+*~
+.*
+unused/
 
-# IDE files (Eclipse, IntelliJ IDEA, vscode)
+# IDE files (Eclipse, IntelliJ-IDEA-based, VS Code etc.)
 # -------------------------------------
 .cproject
 .project
 .idea/
 .vscode/
+.settings
+.vscode
 
 # Patch-related
 # -------------------------------------
@@ -46,3 +70,21 @@ gmon.out
 # -------------------------------------
 build/
 cmake-build*
+
+# Archives
+# -------------------------------------
+*.zip
+*.gz
+*.bz2
+*.tgz
+*.tar
+*.xz
+
+# Miscellaneous
+# -------------------------------------
+tags
+log
+*.log
+*.v3breakpoints
+gmon.out
+.DS_Store

@@ -13,49 +13,11 @@
 #include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <limits.h>
-#include <math.h>
-#include <ctype.h>
-#include <signal.h>
 #include <string.h>
-#include <errno.h>
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif /* HAVE_STRINGS_H */
-
-#if (defined(HAVE_UNISTD_H) && defined(HAVE_SYS_WAIT_H)) // POSIX-compatible system
-//#include <unistd.h>
-//#include <sys/wait.h>
-#elif (defined(HAVE_PROCESS_H) && defined(HAVE_WINDOWS_H)) // Windows system
-#include <process.h>
-#ifdef _MSC_VER
-#pragma warning(disable:4201)
-#pragma warning(disable:4214)
-#pragma warning(disable:4514)
-#endif
-#define WIN32_LEAN_AND_MEAN
-#define NOATOM
-#define NOGDICAPMASKS
-#define NOMETAFILE
-#define NOMINMAX
-#define NOMSG
-#define NOOPENFILE
-#define NORASTEROPS
-#define NOSCROLL
-#define NOSOUND
-#define NOSYSMETRICS
-#define NOTEXTMETRIC
-#define NOWH
-#define NOCOMM
-#define NOKANJI
-#define NOMCX
-#include <windows.h>
-#ifdef _MSC_VER
-#pragma warning(default:4201)
-#pragma warning(default:4214)
-#endif
-#endif /* (defined(HAVE_UNISTD_H) && defined(HAVE_SYS_WAIT_H)) */
 
 #include "dss.h"
 #include "dsstypes.h"

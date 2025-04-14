@@ -19,15 +19,6 @@
 #include "rnd.h" 
 #include <assert.h>
 
-/* Note: This file may not currently be using anything from <inttypes.h> or <stdint.h> */
-#if defined(HAVE_INTTYPES_H)
-#include <inttypes.h>
-#elif defined(HAVE_STDINT_H)
-#include <stdint.h>
-#elif defined(HAVE_SYS_BITTYPES_H)
-#include <sys/bittypes.h>
-#endif /* HAVE_INTTYPES_H */
-
 char *env_config PROTO((char *tag, char *dflt));
 void NthElement(long, long *);
 

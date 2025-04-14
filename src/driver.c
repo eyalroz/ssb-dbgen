@@ -1,5 +1,5 @@
 /* @(#)driver.c	2.1.8.4 */
-/* main driver for dss banchmark */
+/* main driver for dss benchmark */
 
 #define DECLARER				/* EXTERN references get defined here */
 #define NO_FUNC (int (*) ()) NULL	/* to clean up tdefs */
@@ -12,16 +12,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <limits.h>
 #include <math.h>
 #include <ctype.h>
 #include <signal.h>
 #include <string.h>
 #include <errno.h>
-
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif /* HAVE_SYS_TYPES_H */
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
@@ -32,10 +27,6 @@
 #elif (!defined(HAVE_GETOPT))
 int     getopt(int arg_cnt, char **arg_vect, char *options);
 #endif /* (!defined(STDLIB_HAS_GETOPT) && defined(HAVE_GETOPT_H)) */
-
-#ifdef HAVE_SYS_TYPES_H
-	#include <sys/types.h>
-#endif
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -79,7 +70,6 @@ int     getopt(int arg_cnt, char **arg_vect, char *options);
 
 #include "dss.h"
 #include "dsstypes.h"
-#include "bcd2.h"
 #include "life_noise.h"
 
 /*
@@ -246,13 +236,13 @@ int vrf_region (code_t * c, int mode);
 #ifdef SSB
 tdef tdefs[] =
 {
-   
+
     	{"part.tbl", "part table", 200000, hd_part,
 		{pr_part, ld_part}, sd_part, vrf_part, NONE, 0},
 	{0,0,0,0,{0,0}, 0,0,0,0},
 	{"supplier.tbl", "suppliers table", 2000, hd_supp,
 	        {pr_supp, ld_supp}, sd_supp, vrf_supp, NONE, 0},
-    
+
 	{"customer.tbl", "customers table", 30000, hd_cust,
 		{pr_cust, ld_cust}, sd_cust, vrf_cust, NONE, 0},
 	{"date.tbl","date table",2557,0,{pr_date,ld_date}, NULL,vrf_date, NONE,0},
@@ -308,7 +298,7 @@ stop_proc (int signum)
 
 /*
  * Notes:
- * The parallell load code is at best brittle, and seems not to 
+ * The parallel load code is at best brittle, and seems not to
  * have been tested or even built on non-Linux platforms.
  */
 
@@ -318,8 +308,8 @@ void
 kill_load (void)
 {
 	int i;
-	
-	for (i = 0; i < children; i++) 
+
+	for (i = 0; i < children; i++)
 	{
 		if (pids[i])
 			kill(SIGUSR1, pids[i]);
@@ -336,7 +326,7 @@ int
 set_files (int i, int pload)
 {
 	char line[80], *new_name;
-	
+
 	if (table & (1 << i))
 child_table:
 	{
@@ -364,7 +354,7 @@ child_table:
 			goto child_table;
 		}
 	}
-	
+
 	return (0);
 }
 
@@ -403,7 +393,7 @@ load_dists (void)
 	read_dist (env_config (DIST_TAG, DIST_DFLT), "grammar", &grammar);
 	read_dist (env_config (DIST_TAG, DIST_DFLT), "np", &np);
 	read_dist (env_config (DIST_TAG, DIST_DFLT), "vp", &vp);
-	
+
 }
 
 /*
@@ -422,7 +412,6 @@ gen_tbl (int tnum, DSS_HUGE start, DSS_HUGE count, long upd_num)
 	code_t code;
 #endif
 	static int completed = 0;
-	static int init = 0;
 	DSS_HUGE i;
 
 	int rows_per_segment=0;
@@ -435,18 +424,6 @@ gen_tbl (int tnum, DSS_HUGE start, DSS_HUGE count, long upd_num)
 		residual_rows = count - (rows_per_segment * insert_segments);
 		}
 
-	if (init == 0)
-	{
-		INIT_HUGE(o.okey);
-		for (i=0; i < O_LCNT_MAX; i++)
-#ifdef SSB
-			INIT_HUGE(o.lineorders[i].okey);	
-#else
-			INIT_HUGE(o.l[i].okey);
-#endif
-		init = 1;
-	}
-
 	for (i = start; count; count--, i++)
 	{
 		LIFENOISE (1000, i);
@@ -458,7 +435,7 @@ gen_tbl (int tnum, DSS_HUGE start, DSS_HUGE count, long upd_num)
 #ifdef SSB
 #else
 		case ORDER:
-  		case ORDER_LINE: 
+  		case ORDER_LINE:
 #endif
 			mk_order (i, &o, upd_num % 10000);
 
@@ -466,15 +443,15 @@ gen_tbl (int tnum, DSS_HUGE start, DSS_HUGE count, long upd_num)
 			{
 			if((upd_num / 10000) < residual_rows)
 				{
-				if((++rows_this_segment) > rows_per_segment) 
-					{						
+				if((++rows_this_segment) > rows_per_segment)
+					{
 					rows_this_segment=0;
-					upd_num += 10000;					
+					upd_num += 10000;
 					}
 				}
 			else
 				{
-				if((++rows_this_segment) >= rows_per_segment) 
+				if((++rows_this_segment) >= rows_per_segment)
 					{
 					rows_this_segment=0;
 					upd_num += 10000;
@@ -516,7 +493,7 @@ gen_tbl (int tnum, DSS_HUGE start, DSS_HUGE count, long upd_num)
 		case PSUPP:
 		case PART:
   		case PART_PSUPP:
-#endif 
+#endif
 			mk_part (i, &part);
 			if (set_seeds == 0)
 				{
@@ -648,26 +625,26 @@ partial (int tbl, int s)
 {
 	long rowcnt;
 	long extra;
-	
+
 	if (verbose > 0)
 	{
 		fprintf (stderr, "\tStarting to load stage %d of %ld for %s...",
 			s, children, tdefs[tbl].comment);
 	}
-	
+
 	if (direct == 0)
 		set_files (tbl, s);
-	
+
 	rowcnt = set_state(tbl, scale, children, s, &extra);
-        
+
 	if (s == children)
 		gen_tbl (tbl, rowcnt * (s - 1) + 1, rowcnt + extra, upd_num);
 	else
 		gen_tbl (tbl, rowcnt * (s - 1) + 1, rowcnt, upd_num);
-	
+
 	if (verbose > 0)
 		fprintf (stderr, "done.\n");
-	
+
 	return (0);
 }
 
@@ -682,7 +659,7 @@ int
 pload (int tbl)
 {
 	int c = 0, i, status;
-	
+
 	if (verbose > 0)
 	{
 		fprintf (stderr, "Starting %ld children to load %s",
@@ -709,7 +686,7 @@ pload (int tbl)
 			fprintf (stderr, ".");
 		}
 	}
-	
+
 	if (verbose > 0)
 		fprintf (stderr, "waiting...");
 
@@ -735,7 +712,7 @@ pload (int tbl)
 				(void) fprintf(stderr, "stopped, signal %d\n",
 					WSTOPSIG(status));
 					}
-				
+
 			}
 		c--;
 	}
@@ -751,7 +728,7 @@ void
 process_options (int count, char **vector)
 {
 	int option;
-	
+
 	while ((option = getopt (count, vector,
 		"b:C:Dd:Ffi:hn:O:P:qr:s:S:T:U:v")) != -1)
 	switch (option)
@@ -773,8 +750,8 @@ process_options (int count, char **vector)
 	  case 'S':				/* generate a particular STEP */
 		  step = atoi (optarg);
 #ifdef SSB
-		  if (step > 1) { 
-			  table &= ~(1 << DATE); 
+		  if (step > 1) {
+			  table &= ~(1 << DATE);
 		  }
 #endif
 		  break;
@@ -799,7 +776,7 @@ process_options (int count, char **vector)
 			  break;
 		  case 'd':			/* generate date ONLY */
 			  table = 1 << DATE;
-			  break;  
+			  break;
 		  case 'l':			/* generate lineorder table ONLY */
 			  table = 1 << LINE;
 			  break;
@@ -837,7 +814,7 @@ process_options (int count, char **vector)
 			  break;
 		  case 's':			/* generate suppliers ONLY */
 			  table = 1 << SUPP;
-			  break;			  
+			  break;
 #endif
 		  default:
 			  fprintf (stderr, "Unknown table name %s\n",
@@ -852,7 +829,7 @@ process_options (int count, char **vector)
 			  if (flt_scale < MIN_SCALE)
 			  {
 				  int i;
-				  
+
 				  scale = 1;
 				  for (i = PART; i < REGION; i++)
 				  {
@@ -968,14 +945,14 @@ main (int ac, char **av)
 {
 	int i;
 
-	table = 
+	table =
 #ifdef SSB
 		(1 << CUST) |
 		(1 << PART) |
 		(1 << SUPP) |
 		(1 << DATE) |
 		(1 << LINE);
-#else	
+#else
 		(1 << CUST) |
 		(1 << SUPP) |
 		(1 << NATION) |
@@ -1016,7 +993,7 @@ main (int ac, char **av)
 	gen_rng = 0;
 	children = 1;
 	d_path = NULL;
-	
+
 	process_options (ac, av);
 #if ( defined(WIN32) && !defined(_POSIX_C_SOURCE) )
 	for (i = 0; i < ac; i++)
@@ -1027,7 +1004,7 @@ main (int ac, char **av)
 	}
 	spawn_args[ac] = NULL;
 #endif
-	
+
 	if (verbose >= 0)
 		{
 		fprintf (stderr,
@@ -1035,33 +1012,33 @@ main (int ac, char **av)
 			NAME, VERSION, RELEASE, MODIFICATION, PATCH);
 		fprintf (stderr, "Copyright %s %s\n", TPC, C_DATES);
 		}
-	
+
 	load_dists ();
 	/* have to do this after init */
 	tdefs[NATION].base = nations.count;
 	tdefs[REGION].base = regions.count;
-	
-	/* 
-	* updates are never parallelized 
+
+	/*
+	* updates are never parallelized
 	*/
 	if (updates)
 		{
-		/* 
+		/*
 		 * set RNG to start generating rows beyond SF=scale
 		 */
 		double fix1;
 
 #ifdef SSB
-		set_state (LINE, scale, 1, 2, (long *)&i); 
+		set_state (LINE, scale, 1, 2, (long *)&i);
 		fix1 = (double)tdefs[LINE].base / (double)10000; /*represent the %% percentage (n/100)%*/
 #else
-		set_state (ORDER, scale, 1, 2, (long *)&i); 
+		set_state (ORDER, scale, 1, 2, (long *)&i);
 		fix1 = (double)tdefs[ORDER_LINE].base / (double)10000;
-#endif		
+#endif
 		rowcnt = (int)(fix1 * scale * refresh);
 		if (step > 0)
 			{
-			/* 
+			/*
 			 * adjust RNG for any prior update generation
 			 */
 			sd_order(0, rowcnt * (step - 1));
@@ -1105,7 +1082,7 @@ main (int ac, char **av)
 
 		exit (0);
 		}
-	
+
 	/**
 	** actual data generation section starts here
 	**/
@@ -1124,7 +1101,7 @@ main (int ac, char **av)
 					exit (1);
 				}
 		}
-		
+
 /*
  * traverse the tables, invoking the appropriate data generation routine for any to be built
  */
@@ -1187,10 +1164,9 @@ main (int ac, char **av)
 				printf("Validation checksum for %s at %ld GB: %0lx\n",
 					 tdefs[i].name, scale, tdefs[i].vtotal);
 		}
-			
+
 		if (direct)
 			close_direct ();
-			
+
 		return (0);
 }
-

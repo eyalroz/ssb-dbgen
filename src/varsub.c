@@ -11,10 +11,6 @@
 #error "No place to get the malloc() definition from."
 #endif /* defined(HAVE_MALLOC_IN_STDLIB) */
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include "dss.h"
 #include "tpcd.h"
 #ifdef ADHOC
@@ -22,7 +18,7 @@
 extern adhoc_t adhocs[];
 #endif /* ADHOC */
 
-#define MAX_PARAM	10		/* maximum number of parameter substitutions in a query */
+#define MAX_PARAM 10 /* maximum number of parameter substitutions in a query */
 
 extern long Seed[];
 extern char **asc_date;
@@ -30,70 +26,54 @@ extern double flt_scale;
 extern distribution q13a, q13b;
 long *permute(long *set, int cnt, long stream);
 
-long brands[25] = {11,12,13,14,15,21,22,23,24,25,31,32,33,34,35,
-			41,42,43,44,45,51,52,53,54,55};
-long sizes[50] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
-				21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
-				41,42,43,44,45,46,47,48,49,50};
+long brands[25] = 
+	{11,12,13,14,15,21,22,23,24,25,31,32,33,34,35,
+	41,42,43,44,45,51,52,53,54,55};
+long sizes[50] = 
+	{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
+	21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
+	41,42,43,44,45,46,47,48,49,50};
 long ccode[25] = {10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34};
-char *defaults[24][11] =
+char *defaults[24][11] = 
 {
-    {"90",              NULL,                   NULL,
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 1 */
-    {"15",              "BRASS",                "EUROPE",
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 2 */
-    {"BUILDING",        "1995-03-15",           NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 3 */
-    {"1993-07-01",      NULL,                   NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 4 */
-    {"ASIA",            "1994-01-01",           NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 5 */
-    {"1994-01-01",      ".06",                  "24",
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 6 */
-    {"FRANCE",          "GERMANY",              NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 7 */
-    {"BRAZIL",          "AMERICA",      "ECONOMY ANODIZED STEEL",
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},/* 8 */
-    {"green",         NULL,                   NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 9 */
-    {"1993-10-01",      NULL,                   NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 10 */
-    {"GERMANY",         "0.0001",                 NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 11 */
-    {"MAIL",            "SHIP",                 "1994-01-01",
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 12 */
-    {"special", "requests",                   NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 13 */
-    {"1995-09-01",      NULL,                   NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 14 */
-    {"1996-01-01",      NULL,                   NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 15 */
-    {"Brand#45",        "MEDIUM POLISHED", "49",
-	"14","23","45","19","3","36","9", NULL}, /* 16 */
-    {"Brand#23",        "MED BOX",               NULL,
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 17 */
-    {"300", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 18 */
-    {"Brand#12", "Brand#23", "Brand#34", "1", "10", "20", NULL, NULL, NULL, NULL, NULL}, /* 19 */
-    {"forest", "1994-01-01", "CANADA", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 20 */
-    {"SAUDI ARABIA", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 21 */
-    {"13","31","23", "29", "30", "18", "17", NULL, NULL, NULL, NULL},  /* 22 */
-    {NULL,NULL,NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* UF1 */
-    {NULL,NULL,NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* UF2 */
+	{"90", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 1 */
+	{"15", "BRASS", "EUROPE", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 2 */
+	{"BUILDING", "1995-03-15", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 3 */
+	{"1993-07-01", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 4 */
+	{"ASIA", "1994-01-01", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 5 */
+	{"1994-01-01", ".06", "24", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 6 */
+	{"FRANCE", "GERMANY", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 7 */
+	{"BRAZIL", "AMERICA", "ECONOMY ANODIZED STEEL", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},/* 8 */
+	{"green", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 9 */
+	{"1993-10-01", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 10 */
+	{"GERMANY", "0.0001", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 11 */
+	{"MAIL", "SHIP", "1994-01-01", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 12 */
+	{"special", "requests", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 13 */
+	{"1995-09-01", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 14 */
+	{"1996-01-01", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 15 */
+	{"Brand#45", "MEDIUM POLISHED", "49", "14","23","45","19","3","36","9", NULL}, /* 16 */
+	{"Brand#23", "MED BOX", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 17 */
+	{"300", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 18 */
+	{"Brand#12", "Brand#23", "Brand#34", "1", "10", "20", NULL, NULL, NULL, NULL, NULL}, /* 19 */
+	{"forest", "1994-01-01", "CANADA", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 20 */
+	{"SAUDI ARABIA", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* 21 */
+	{"13","31","23", "29", "30", "18", "17", NULL, NULL, NULL, NULL},  /* 22 */
+	{NULL,NULL,NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* UF1 */
+	{NULL,NULL,NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},  /* UF2 */
 };
+
 void
 varsub(int qnum, int vnum, int flags)
 {
-    static char param[11][128];
-    static FILE *lfp = NULL;
+	static char param[11][128];
+	static FILE *lfp = NULL;
 	long *lptr;
-    char *ptr;
-    int i = 0,
-        tmp_date;
-	long tmp1,
-		tmp2;
+	char *ptr;
+	int i = 0, tmp_date;
+	long tmp1, tmp2;
 	
-    if (vnum == 0)
-    {
+	if (vnum == 0)
+	{
 		if ((flags & DFLT) == 0)
 		{
 			switch(qnum)
@@ -103,8 +83,7 @@ varsub(int qnum, int vnum, int flags)
 				param[2][0] = '\0';
 				break;
 			case 2:
-				sprintf(param[1], "%ld", 
-					UnifInt((long)P_SIZE_MIN, (long)P_SIZE_MAX, qnum));
+				sprintf(param[1], "%ld", UnifInt((long)P_SIZE_MIN, (long)P_SIZE_MAX, qnum));
 				pick_str(&p_types_set, qnum, param[3]);
 				ptr = param[3] + strlen(param[3]);
 				while (*(ptr - 1) != ' ') ptr--;
@@ -137,7 +116,7 @@ varsub(int qnum, int vnum, int flags)
 				break;
 			case 6:
 				tmp_date = UnifInt(93,97,qnum);
-                sprintf(param[1], "19%d-01-01", tmp_date);
+				sprintf(param[1], "19%d-01-01", tmp_date);
 				sprintf(param[2], "0.0%ld", UnifInt(2, 9, qnum));
 				sprintf(param[3], "%ld", UnifInt((long)24, (long)25, (long)qnum));
 				param[4][0] = '\0';
@@ -160,8 +139,7 @@ varsub(int qnum, int vnum, int flags)
 				break;
 			case 10:
 				tmp_date = UnifInt(1,24,qnum);
-				sprintf(param[1],"19%02d-%02d-01", 
-					93 + tmp_date/12, tmp_date%12 + 1);
+				sprintf(param[1],"19%02d-%02d-01", 93 + tmp_date/12, tmp_date%12 + 1);
 				param[2][0] = '\0';
 				break;
 			case 11:
@@ -256,64 +234,64 @@ varsub(int qnum, int vnum, int flags)
 				break;
 			case 23:
 			case 24:
-                break;
+				break;
 			default:
 				fprintf(stderr, 
 					"No variable definitions available for query %d\n", 
-                    qnum);
+					qnum);
 				return;
-        }
-    }
-	
-    if (flags & LOG)
-	{
-        if (lfp == NULL)
-		{
-            lfp = fopen(lfile, "a");
-            OPEN_CHECK(lfp, lfile);
+			}
 		}
-        fprintf(lfp, "%d", qnum);
-        for (i=1; i <= 10; i++)
-            if (flags & DFLT)
+
+		if (flags & LOG)
+		{
+			if (lfp == NULL)
 			{
-				if (defaults[qnum - 1][i - 1] == NULL)
-					break;
-				else
-					fprintf(lfp, "\t%s", defaults[qnum - 1][i - 1]);
+				lfp = fopen(lfile, "a");
+				OPEN_CHECK(lfp, lfile);
 			}
-            else
-			{
-				if (param[i][0] == '\0')
-					break;
+			fprintf(lfp, "%d", qnum);
+			for (i=1; i <= 10; i++)
+				if (flags & DFLT)
+				{
+					if (defaults[qnum - 1][i - 1] == NULL)
+						break;
+					else
+						fprintf(lfp, "\t%s", defaults[qnum - 1][i - 1]);
+				}
 				else
-					fprintf(lfp, "\t%s", param[i]);
-			}
+				{
+					if (param[i][0] == '\0')
+						break;
+					else
+						fprintf(lfp, "\t%s", param[i]);
+				}
 			fprintf(lfp, "\n");
-	}
-    }
-    else
-	{
-        if (flags & DFLT)   
-		{
-            /* to allow -d to work at all scale factors */
-            if (qnum == 11 && vnum == 2)
-                fprintf(ofp, "%11.10f", Q11_FRACTION/flt_scale);
-            else
-                if (defaults[qnum - 1][vnum - 1])
-                    fprintf(ofp, "%s", defaults[qnum - 1][vnum - 1]);
-                else
-					fprintf(stderr, 
-					"Bad default request (q: %d, p: %d)\n",
-					qnum, vnum);
 		}
-        else        
+	}
+	else
+	{
+		if (flags & DFLT)   
 		{
-            if (param[vnum] && vnum <= MAX_PARAM)
-                fprintf(ofp, "%s", param[vnum]);
-            else
+			/* to allow -d to work at all scale factors */
+			if (qnum == 11 && vnum == 2)
+				fprintf(ofp, "%11.10f", Q11_FRACTION/flt_scale);
+			else
+				if (defaults[qnum - 1][vnum - 1])
+					fprintf(ofp, "%s", defaults[qnum - 1][vnum - 1]);
+				else
+					fprintf(stderr, 
+						"Bad default request (q: %d, p: %d)\n",
+						qnum, vnum);
+		}
+		else
+		{
+			if (vnum <= MAX_PARAM)
+				fprintf(ofp, "%s", param[vnum]);
+			else
 				fprintf(stderr, "Bad parameter request (q: %d, p: %d)\n",
 				qnum, vnum);
 		}
 	}
-    return;
+	return;
 }

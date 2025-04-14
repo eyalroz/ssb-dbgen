@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.0...3.31)
 cmake_policy(SET CMP0054 NEW) # Don't try to interpret "FOO" as a variable
-include(CheckIncludeFiles)
-include(CheckTypeSize)
+include(CheckIncludeFile)
 include(CheckSymbolExists)
 include(CheckFunctionExists)
 
-project(ssb-dbgen # SSB benchmark data (and query) generator utilities
+project(ssb-dbgen
+	DESCRIPTION "SSB benchmark data (and query) generator utilities"
 	LANGUAGES C)
 
 if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
@@ -28,11 +28,6 @@ if (CSV_OUTPUT_FORMAT AND NOT EOL_HANDLING)
 	message(WARNING "When CSV is used for the output format, EOL_HANDLING is ignored and a separator is _never_ printed after the last field on the line (the equivalent of EOL_HANDLING being ON).")
 endif()
 
-check_type_size("long long" SIZEOF_LONG_LONG)
-check_type_size("long" SIZEOF_LONG)
-check_type_size("int" SIZEOF_INT)
-check_type_size("short" SIZEOF_SHORT)
-
 # Header checks...
 
 # ... for POSIX systems
@@ -42,7 +37,6 @@ check_include_file(sys/wait.h HAVE_SYS_WAIT_H)
 check_include_file(sys/types.h HAVE_SYS_TYPES_H)
 check_include_file(sys/stat.h HAVE_SYS_STAT_H)
 check_include_file(strings.h HAVE_STRINGS_H)
-check_include_file(inttypes.h HAVE_INTTYPES_H)
 
 # ... for Windows
 check_include_file(getopt.h HAVE_GETOPT_H)
@@ -102,7 +96,6 @@ configure_file(src/config.h.in src/config.h @ONLY)
 include_directories("${CMAKE_CURRENT_BINARY_DIR}/src")
 
 add_executable(dbgen
-	src/bcd2.c
 	src/bm_utils.c
 	src/build.c
 	src/driver.c
@@ -115,7 +108,6 @@ add_executable(dbgen
 )
 
 add_executable(qgen
-	src/bcd2.c
 	src/bm_utils.c
 	src/build.c
 	src/permute.c
