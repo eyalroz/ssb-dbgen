@@ -16,7 +16,7 @@ The result has seen several repositories here on github with various changes to 
 
 This effort is an attempt to **unify** all of those disparate repositories, taking all changes to the code which - in my opinion - are generally applicable, and applying them all together while resolving any conflicts. Details of what's already been done can be found on the [Closed Issues Page](https://github.com/eyalroz/ssb-dbgen/issues?q=is%3Aissue+is%3Aclosed) and of course by examining the commit comments.
 
-If you are the author of one of the other repositories - please [contact me](mailto:eyalroz@technion.ac.il) for better coordination of this effort.
+If you are the author of one of the other repositories - please [contact me](mailto:eyalroz1@gmx.com) for better coordination of this effort.
 
 ## <a name="about-ssb">About the Star Schema Benchmark</a>
 
